@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="default ie6" lang="de-DE"><![endif]-->
+<!--[if IE 7 ]><html class="default ie7" lang="de-DE"><![endif]-->
+<!--[if IE 8 ]><html class="default ie8" lang="de-DE" ><![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html class="default" lang="de-DE" ><!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <title>Arcaris - Ihr Partner f&uuml;r Direktbeteiligungen im deutschen Mittelstand</title>
+        <meta name="description" content="Ihr Partner für Direktbeteiligung im deutschen Mittelstand.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="preload" href="css/robotoslab-regular-webfont.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="css/robotoslab-light-webfont.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="img/Arcaris_logo_blau_verlauf.png" as="image">
+
+        <style>
+/* Kritisches Preloader-CSS — inline, wirkt beim allerersten Paint */
+html { scrollbar-gutter: stable; }
+#preloader {
+	position: fixed;
+	top: 0; left: 0; right: 0; bottom: 0;
+	background: #fff;
+	z-index: 15000;
+	overflow: hidden;
+	contain: layout paint;
+}
+#preloader *, #preloader *::before, #preloader *::after {
+	transition: none !important;
+}
+#preloader .preloader-stage {
+	position: absolute;
+	top: 0; left: 0; right: 0; bottom: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 40px;
+	box-sizing: border-box;
+}
+#preloader .preloader-logo-wrap {
+	width: 180px;
+	height: 90px;
+	margin: 0 0 32px;
+	position: relative;
+	flex: 0 0 auto;
+}
+#preloader .preloader-logo {
+	position: absolute;
+	top: 0; left: 0;
+	width: 180px;
+	height: auto;
+	filter: none;
+	display: block;
+}
+#preloader .preloader-ring {
+	position: absolute;
+	top: 50%; left: 50%;
+	width: 240px; height: 240px;
+	margin: -120px 0 0 -120px;
+	border-radius: 50%;
+	border: 1.5px solid rgba(0, 69, 140, 0.08);
+	border-top-color: rgba(0, 69, 140, 0.55);
+	animation: preloaderSpin 1.4s linear infinite !important;
+	pointer-events: none;
+	box-sizing: border-box;
+}
+#preloader .preloader-slot-hairline { flex: 0 0 auto; height: 1px; width: 80px; margin: 0 0 24px; }
+#preloader .preloader-slot-kicker   { flex: 0 0 auto; height: 14.4px; margin: 0 0 48px; width: 100%; max-width: 720px; }
+#preloader .preloader-slot-h1       { flex: 0 0 auto; height: 156px; margin: 0 0 48px; width: 100%; max-width: 720px; }
+#preloader .preloader-slot-cta      { flex: 0 0 auto; height: 23px; }
+@keyframes preloaderSpin { to { transform: rotate(360deg); } }
+
+@media screen and (max-width: 640px) {
+	#preloader .preloader-logo-wrap { width: 130px; height: 65px; margin: 0 0 24px; }
+	#preloader .preloader-logo { width: 130px; }
+	#preloader .preloader-ring { width: 180px; height: 180px; margin: -90px 0 0 -90px; }
+	#preloader .preloader-slot-kicker { height: 13.2px; margin-bottom: 36px; }
+	#preloader .preloader-slot-h1 { height: 109.2px; margin-bottom: 36px; }   /* 28px × 1.3 × 3 = 109.2 */
+	#preloader .preloader-slot-cta { height: 20px; }
+}
+        </style>
+
+        <link rel="stylesheet" href="css/main.css" type="text/css">
+        <link rel="stylesheet" href="css/animate.min.css" type="text/css" />
+        <link rel="stylesheet" href="css/idangerous.swiper.css" type="text/css" />
+
+
+        <meta name="apple-mobile-web-app-capable" content="no">
+		<meta name="apple-mobile-web-app-title" content="Arcaris">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="57x57" href="img/apple-touch-icon-57-precomposed.png">
+
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+        <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="img/favicon-180.png">
+
+        <script src="js/vendor/modernizr-2.7.0.min.js"></script>
+    </head>
+    <body id="top">
+<div id="preloader">
+	<div class="preloader-stage" aria-hidden="true">
+		<div class="preloader-logo-wrap">
+			<img class="preloader-logo" src="img/Arcaris_logo_blau_verlauf.png" alt="Arcaris">
+			<div class="preloader-ring"></div>
+		</div>
+		<div class="preloader-slot-hairline"></div>
+		<div class="preloader-slot-kicker"></div>
+		<div class="preloader-slot-h1"></div>
+		<div class="preloader-slot-cta"></div>
+	</div>
+</div>
+<div id="border_left"></div>
+<div id="border_right"></div>
+<div id="border_bottom"></div>
+
+<div id="wrapper">
+	<header id="header">
+
+		<div class="main-nav-bg"></div>
+
+		<!-- NAVIGATION ############################################### -->
+
+			<div class="navigation">
+
+				<div class="navToggle">
+					<div class="icon"></div>
+				</div>
+
+				<div class="logo">
+					<a href="#top">
+						<img src="img/Arcaris_logo_blau_verlauf.png" alt="Arcaris Logo" /><!-- logo.svg 127x27px -->
+					</a>
+				</div>
+
+				<div class="bgblack">
+
+					<div class="logo">
+						<a href="#top">
+							<img src="img/Arcaris_logo_blau_verlauf.png" alt="Arcaris Logo" /><!-- logo.svg 127x27px -->
+						</a>
+					</div>
+
+					<div id="menu_responsive">
+						<span class="ueber_uns_responsive"><a href="#ueber_uns"><span>&Uuml;ber uns</span></a></span>
+			            <span class="investitionsansatz_responsive"><a href="#investitionsansatz"><span>Investitionsansatz</span></a></span>
+			            <span class="portfolio_responsive"><a href="#portfolio"><span>Portfolio</span></a></span>
+			            <span class="team_responsive"><a href="#team"><span>Team</span></a></span>
+			            <span class="karriere_responsive"><a href="#karriere"><span>Karriere</span></a></span>
+			            <span class="kontakt_responsive"><a href="#kontakt"><span>Kontakt</span></a></span>
+			            <span class="impressum_responsive"><a href="#impressum"><span>Impressum</span></a></span>
+			            <span class="datenschutz_responsive"><a href="#datenschutz"><span>Datenschutz</span></a></span>
+					</div>
+
+				</div>
+
+				<div id="menu">
+					<nav class="main-nav">
+			            <div class="main-nav__desktop">
+			                <ul class="main-nav__desktop__menu clearfix">
+			                    <li class="ueber_uns"><a href="#ueber_uns">&Uuml;ber uns</a></li>
+			                    <li class="investitionsansatz"><a href="#investitionsansatz">Investitionsansatz</a></li>
+			                    <li class="portfolio"><a href="#portfolio">Portfolio</a></li>
+			                    <li class="team"><a href="#team">Team</a></li>
+			                    <li class="karriere"><a href="#karriere">Karriere</a></li>
+			                    <li class="kontakt"><a href="#kontakt">Kontakt</a></li>
+			                    <li class="impressum"><a href="#impressum">Impressum</a></li>
+			                    <li class="datenschutz"><a href="#datenschutz">Datenschutz</a></li>
+<!-- 			                    <div id="marker"></div> -->
+			                </ul>
+			            </div>
+					</nav>
+
+				</div>
+
+			</div>
+
+
+<!-- END NAVIGATION ############################################### -->
+
+
+
+    </header>
+
+
+	<div class="hero-video" id="swiper-container">
+		<video class="hero-video__media" autoplay muted loop playsinline preload="auto" poster="img/hero-duesseldorf-poster.jpg">
+			<source src="img/hero-duesseldorf-720.mp4" type="video/mp4" media="(max-width: 1100px)">
+			<source src="img/hero-duesseldorf.mp4" type="video/mp4">
+		</video>
+		<div class="hero-video__overlay"></div>
+	</div>
+
+	<div class="start__content">
+		<img src="img/Arcaris_logo_blau_verlauf.png" class="start__logo" alt="Arcaris" />
+		<hr class="start__hairline">
+		<p class="start__kicker">D&uuml;sseldorf &middot; seit 2013</p>
+		<h1>Ihr Partner f&uuml;r Direkt&shy;beteiligungen im deutschen Mittelstand.</h1>
+		<a class="start__cta" href="#ueber_uns">Herzlich willkommen</a>
+	</div>
+
+	<!--
+	        <section id="start" data-speed="0" data-type="background">
+	            <div class="start__content">
+	                <h1>Ihr Partner für Direktbeteiligung im deutschen Mittelstand.</h1>
+	                <h2 class="herzlich_willkommen">
+		                <a href="#ueber_uns">
+			                <div class="svg-wrapper">
+								<svg height="60" width="200" xmlns="http://www.w3.org/2000/svg">
+									<rect class="shape" height="60" width="200" />
+									<div class="text">Herzlich Willkommen</div>
+								</svg>
+							</div>
+						</a>
+						</h2>
+	            </div>
+	        </section>
+	-->
+
+    <section id="ueber_uns" class="g-section">
+        <div class="g-inner">
+            <div class="g-kicker">Profil</div>
+            <hr class="g-hairline">
+            <h2 class="g-h2">&Uuml;ber uns</h2>
+            <p class="g-lead">Die Arcaris Management GmbH ist eine von Unternehmern gegr&uuml;ndete unabh&auml;ngige Beteiligungsgesellschaft. &Uuml;ber sie investiert ein breites Netzwerk an Unternehmern und Unternehmerfamilien in den deutschen Mittelstand.</p>
+
+            <h3 class="g-h3">Wer wir sind</h3>
+            <p class="g-body">Wir vertreten ausschlie&szlig;lich langfristig orientierte Investoren, die ihre Beteiligungen in vielf&auml;ltiger Weise partnerschaftlich unterst&uuml;tzen und Verantwortung &uuml;bernehmen. Wir sind gem&auml;&szlig; den gesetzlichen Anforderungen BaFin registriert.</p>
+
+            <h3 class="g-h3">Was wir machen</h3>
+            <p class="g-body">Gemeinsam mit unseren Investoren erwirbt die Arcaris Unternehmen im deutschen Mittelstand und entwickelt sie weiter. Der Fokus liegt auf etablierten mittelst&auml;ndischen Unternehmen, die in die n&auml;chste Gesellschaftergeneration oder Entwicklungsphase &uuml;berf&uuml;hrt werden sollen. Unserer Ansicht nach werden unternehmerische Werte mehr durch kontinuierliche operative Leistung als durch kurzfristige finanzielle Strukturierung erzielt. Folglich konzipieren wir unsere Beteiligungen nicht f&uuml;r einen kurzfristigen Zeitraum, sondern streben eine langfristige Zusammenarbeit an. Um den individuellen Gegebenheiten gerecht zu werden, werden die Beteiligungen bewusst eigenst&auml;ndig und nicht als Bestandteil eines Fonds strukturiert. F&uuml;r jede Beteiligung wird eine individuelle Nachfolgel&ouml;sung oder Entwicklungskonzept erarbeitet und gemeinschaftlich mit dem Management umgesetzt. Somit sind wir in der Lage jede Transaktion flexibel zu gestalten.</p>
+
+            <h3 class="g-h3">Warum Arcaris</h3>
+            <p class="g-body">Wir verf&uuml;gen &uuml;ber langj&auml;hrige Erfahrung in der Anbahnung und Durchf&uuml;hrung von Unternehmensbeteiligungen und k&ouml;nnen Prozesse schnell und effizient umsetzen, ohne das Tagesgesch&auml;ft des Unternehmens zu st&ouml;ren. Bei der Strukturierung von Transaktionen gehen wir bewusst auf die individuellen Gegebenheiten des Unternehmens und Pr&auml;ferenzen des Verk&auml;ufers ein. Aufgrund der Investorenstruktur sowie des bestehenden Bankennetzwerkes bieten wir eine hohe Transaktionssicherheit. Neben dem Kapital engagieren wir uns mit Managementressourcen und bieten auch operativen Mehrwert f&uuml;r das Unternehmen. Wir sind regelm&auml;&szlig;ig in der Lage industrie&uuml;bergreifend einen Manager zu identifizieren, der die Nachfolge &uuml;bernehmen kann. Arcaris ist nicht auf die Weiterver&auml;u&szlig;erung eines Beteiligungsunternehmens angewiesen und verfolgt somit keine kurz- oder mittelfristige &bdquo;Exitstrategie&ldquo;, sondern eine langfristige Entwicklung des Unternehmens.</p>
+        </div>
+    </section>
+
+        <section id="investitionsansatz" class="g-section">
+            <div class="g-inner">
+                <div class="g-kicker">Ansatz</div>
+                <hr class="g-hairline">
+                <h2 class="g-h2">Investitionsansatz</h2>
+                <p class="g-lead">Arcaris beteiligt sich am deutschen Mittelstand. Unser Investitionsfokus liegt auf dem verarbeitenden Gewerbe und dem Dienstleistungssektor.</p>
+
+                <div class="g-two-col">
+                    <div>
+                        <h3 class="g-h3">Typische Beteiligungsanl&auml;sse</h3>
+                        <ul class="g-list">
+                            <li>Klassische Unternehmensnachfolge</li>
+                            <li>Management Buy-Out und Management Buy-In</li>
+                            <li>Konzernausgr&uuml;ndungen</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="g-h3">Eigenschaften der Beteiligungen</h3>
+                        <ul class="g-list">
+                            <li>Unternehmenssitz in Deutschland</li>
+                            <li>Umsatz zwischen 5 und 25 Mio. &euro;</li>
+                            <li>Nachhaltig profitable Gesch&auml;ftsmodelle</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="g-h3">Handlungsmaxime</h3>
+                <p class="g-body">Wir verstehen uns als Unternehmer und handeln auch entsprechend. Unsere Prinzipien im Rahmen des Beteiligungsprozesses und der weiteren Zusammenarbeit sind:</p>
+                <div class="g-three-col">
+                    <div class="g-card">
+                        <div class="g-num">01</div>
+                        <h4>Ma&szlig;geschneiderte L&ouml;sungen</h4>
+                        <p>Wir bieten ma&szlig;geschneiderte Transaktions- und Finanzierungsl&ouml;sungen an, welche die individuelle Lebenssituation und Lebensplanung unserer Gesch&auml;ftspartner zum Ausgangspunkt nehmen.</p>
+                    </div>
+                    <div class="g-card">
+                        <div class="g-num">02</div>
+                        <h4>Partnerschaftlicher Umgang</h4>
+                        <p>Wesentliche Voraussetzung f&uuml;r eine Beteiligung ist bei uns, dass die Chemie zwischen den beteiligten Personen stimmt. Wir begreifen uns als gleichwertige Partner, denn nur so k&ouml;nnen unternehmerische Vorhaben erfolgreich sein.</p>
+                    </div>
+                    <div class="g-card">
+                        <div class="g-num">03</div>
+                        <h4>Integrit&auml;t und Fairness</h4>
+                        <p>Wir sind davon &uuml;berzeugt, dass Integrit&auml;t und Fairness die Basis f&uuml;r den Umgang miteinander und den langfristigen Erfolg sind. Hieran richten wir unser eigenes Handeln aus.</p>
+                    </div>
+                </div>
+
+                <h3 class="g-h3">Entwicklungskonzept</h3>
+                <p class="g-body">Wir wollen nachhaltige Werte schaffen. Unser Entwicklungskonzept basiert daher auf drei wesentlichen Grundgedanken:</p>
+                <div class="g-three-col">
+                    <div class="g-card">
+                        <div class="g-num">01</div>
+                        <h4>Langfristiger Horizont</h4>
+                        <p>Statt kurzfristiger Renditemaximierung legen wir Wert auf langfristig tragf&auml;hige Konzepte. Wir und unsere Investoren sind uns bewusst, dass dies einen langfristigen Investitionszeitraum impliziert.</p>
+                    </div>
+                    <div class="g-card">
+                        <div class="g-num">02</div>
+                        <h4>Wertsteigerung</h4>
+                        <p>Fokus unseres Handelns liegt auf der strategischen und operativen Weiterentwicklung des Unternehmens. Mit unserer Erfahrung und unserem Netzwerk unterst&uuml;tzen wir unsere Beteiligungen bei der Umsetzung.</p>
+                    </div>
+                    <div class="g-card">
+                        <div class="g-num">03</div>
+                        <h4>Soziale Verantwortung</h4>
+                        <p>Im Mittelpunkt unseres Handelns stehen die F&uuml;hrungskr&auml;fte und Mitarbeiter unserer Beteiligungen. Wir sind uns bewusst, dass diese Menschen unser gr&ouml;&szlig;tes Asset sind. Dementsprechend legen wir einen besonderen Augenmerk auf die Menschen.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="g-section">
+            <div class="g-inner">
+                <div class="g-kicker">Beteiligungen</div>
+                <hr class="g-hairline">
+                <h2 class="g-h2">Unsere Beteiligungen</h2>
+                <p class="g-lead">Sieben mittelst&auml;ndische Unternehmen, mit denen wir partnerschaftlich Werte schaffen.</p>
+
+                <div class="g-portfolio">
+                    <div class="g-portfolio-card">
+                        <img class="photo" src="img/portfolio_right.jpg" alt="RUBO FENSTER GMBH &amp; CO. KG">
+                        <div class="g-portfolio-overlay">
+                            <img class="g-portfolio-logo" src="img/rubo.svg" alt="Rubo">
+                            <div class="g-portfolio-name">Rubo Fenster GmbH &amp; Co. KG</div>
+                            <div class="g-portfolio-meta">
+                                Seit: Januar 2015<br>
+                                Sitz: Porta-Westfalica (NRW)<br>
+                                Gesch&auml;ftsf&uuml;hrer: Carsten Winkler, Ludger Lermer<br>
+                                Webseite: <a href="http://www.rubo.de" target="_blank" rel="noopener">www.rubo.de</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="g-portfolio-card">
+                        <img class="photo" src="img/portfolio_left.jpg" alt="GS Electroplating GmbH">
+                        <div class="g-portfolio-overlay">
+                            <img class="g-portfolio-logo" src="img/GSE.png" alt="GS Electroplating">
+                            <div class="g-portfolio-name">GS Electroplating GmbH</div>
+                            <div class="g-portfolio-meta">
+                                Seit: August 2015<br>
+                                Sitz: Trebur-Geinsheim (Hessen)<br>
+                                Gesch&auml;ftsf&uuml;hrer: Klaus K&ouml;nig<br>
+                                Webseite: <a href="http://www.gs-electroplating.de" target="_blank" rel="noopener">www.gs-electroplating.de</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="g-portfolio-card">
+                        <img class="photo" src="img/doli_edci32-356.jpg" alt="DOLI Elektronik GmbH">
+                        <div class="g-portfolio-overlay">
+                            <img class="g-portfolio-logo" src="img/DOLI_Logo-quer-small_RGB.jpg" alt="DOLI Elektronik">
+                            <div class="g-portfolio-name">DOLI Elektronik GmbH</div>
+                            <div class="g-portfolio-meta">
+                                Seit: Januar 2016<br>
+                                Sitz: M&uuml;nchen (Bayern)<br>
+                                Gesch&auml;ftsf&uuml;hrer: Markus Rauch<br>
+                                Webseite: <a href="http://www.doli.de" target="_blank" rel="noopener">www.doli.de</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="g-portfolio-card">
+                        <img class="photo" src="img/Foto_Bemers.jpg" alt="Bemers &amp; Co. Spr&uuml;htechnik + Vorrichtungsbau GmbH">
+                        <div class="g-portfolio-overlay">
+                            <img class="g-portfolio-logo" src="img/Logo_Bemers.png" alt="Bemers">
+                            <div class="g-portfolio-name">Bemers &amp; Co. Spr&uuml;htechnik + Vorrichtungsbau GmbH</div>
+                            <div class="g-portfolio-meta">
+                                Seit: M&auml;rz 2017<br>
+                                Sitz: Kaarst (NRW)<br>
+                                Gesch&auml;ftsf&uuml;hrer: Dr. Hamid Shahnazian<br>
+                                Webseite: <a href="http://www.bemers.de" target="_blank" rel="noopener">www.bemers.de</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="g-portfolio-card">
+                        <img class="photo" src="img/Zink_Nickel_Vot.jpg" alt="Oberfl&auml;chenveredelung Immel, Seckelmann &amp; Co. GmbH / Brunnert GmbH">
+                        <div class="g-portfolio-overlay">
+                            <img class="g-portfolio-logo" src="img/ohne_logo.jpg" alt="">
+                            <div class="g-portfolio-name">Oberfl&auml;chenveredelung Immel, Seckelmann &amp; Co. GmbH / Brunnert GmbH</div>
+                            <div class="g-portfolio-meta">
+                                Seit: November 2017<br>
+                                Sitz: L&uuml;denscheid / Hagen (NRW)<br>
+                                Gesch&auml;ftsf&uuml;hrer: Rainer Schubeius / Sascha Freckmann<br>
+                                Webseite: <a href="http://www.immelseckelmann.de" target="_blank" rel="noopener">www.immelseckelmann.de</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="g-portfolio-card">
+                        <img class="photo" src="img/Huster-Zink.jpg" alt="Huster Oberfl&auml;chentechnik GmbH">
+                        <div class="g-portfolio-overlay">
+                            <img class="g-portfolio-logo" src="img/Huster-Logo.png" alt="Huster">
+                            <div class="g-portfolio-name">Huster Oberfl&auml;chentechnik GmbH</div>
+                            <div class="g-portfolio-meta">
+                                Seit: November 2018<br>
+                                Sitz: Hagen (NRW)<br>
+                                Gesch&auml;ftsf&uuml;hrer: Sascha Freckmann / Meike Huster / Rainer Schubeius<br>
+                                Webseite: <a href="https://www.huster-hagen.de/" target="_blank" rel="noopener">www.huster-hagen.de</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="g-portfolio-card">
+                        <img class="photo" src="img/magro_produkt.jpg" alt="MAGRO VERBINDUNGSELEMENTE GMBH">
+                        <div class="g-portfolio-overlay">
+                            <img class="g-portfolio-logo" src="img/MAGRO_logo_blau_claim.png" alt="MAGRO">
+                            <div class="g-portfolio-name">MAGRO Verbindungselemente GmbH</div>
+                            <div class="g-portfolio-meta">
+                                Seit: Februar 2021<br>
+                                Sitz: Wuppertal (NRW)<br>
+                                Gesch&auml;ftsf&uuml;hrer: Dr. Andreas Wagner, Markus Kaufmann<br>
+                                Webseite: <a href="https://www.magro-germany.de" target="_blank" rel="noopener">www.magro-germany.de</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="team" class="g-section">
+            <div class="g-inner">
+                <div class="g-kicker">Team</div>
+                <hr class="g-hairline">
+                <h2 class="g-h2">Wir sind Arcaris</h2>
+
+                <div class="g-team">
+                    <div>
+                        <img src="img/team_kaufmann.jpg" alt="Markus Kaufmann">
+                        <div class="g-team-name">Markus Kaufmann</div>
+                        <div class="g-team-role">Gesch&auml;ftsf&uuml;hrer und Gesellschafter</div>
+                        <p class="g-team-bio">Markus Kaufmann verf&uuml;gt &uuml;ber mehr als zehn Jahre Erfahrung im Beteiligungsgesch&auml;ft. Vor dem Aufbau der Arcaris war er Investment Director bei einer deutschen Private-Equity-Gesellschaft und zuvor als Berater bei KPMG und Ernst &amp; Young besch&auml;ftigt.</p>
+                        <p class="g-team-bio">Er ist Diplom-Kaufmann der Westf&auml;lischen Wilhelms-Universit&auml;t M&uuml;nster (WWU).</p>
+                    </div>
+
+                    <div>
+                        <img src="img/team_wagner.jpg" alt="Andreas Wagner">
+                        <div class="g-team-name">Andreas Wagner</div>
+                        <div class="g-team-role">Gesch&auml;ftsf&uuml;hrer und Gesellschafter</div>
+                        <p class="g-team-bio">Andreas Wagner verf&uuml;gt &uuml;ber umfangreiche Erfahrung in der Beratung mittelst&auml;ndischer Unternehmen. Vor dem Aufbau der Arcaris war er Senior Project Manager bei Roland Berger und davor im M&amp;A der KPMG t&auml;tig.</p>
+                        <p class="g-team-bio">Er ist Diplom-Kaufmann der Universit&auml;t des Saarlandes und absolvierte eine Ausbildung zum Bankkaufmann bei der Deutschen Bank. Dar&uuml;ber hinaus hat Herr Wagner an der TU Berlin in Betriebswirtschaftslehre promoviert.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="karriere" class="g-section">
+            <div class="g-inner">
+                <div class="g-kicker">Karriere</div>
+                <hr class="g-hairline">
+                <h2 class="g-h2">Werden Sie Teil von uns</h2>
+                <p class="g-lead">Arcaris ist eine schnell wachsende Beteiligungsgesellschaft mit hohem Anspruch an die eigene Leistung und die F&auml;higkeiten unserer Mitarbeiterinnen und Mitarbeiter.</p>
+
+                <p class="g-body">Aufgrund der hohen Anzahl gepr&uuml;fter Beteiligungsm&ouml;glichkeiten pro Jahr erhalten Sie bei uns die Chance, direkt an laufenden Projekten mitzuarbeiten und erste bzw. weitere Transaktionserfahrungen zu sammeln.</p>
+
+                <p class="g-body">Wir bieten ein flexibles und offenes Arbeitsumfeld mit vielf&auml;ltigen Entwicklungsm&ouml;glichkeiten, das von Engagement und Professionalit&auml;t gepr&auml;gt ist. Wesentlicher Bestandteil unseres Erfolges ist die Beteiligung unseres Teams an den Ergebnissen unserer Arbeit.</p>
+
+                <p class="g-body">Wir suchen laufend hervorragende Mitarbeiterinnen und Mitarbeiter, die uns im Beteiligungsprozess unterst&uuml;tzen und gemeinsam mit uns zur Wertsteigerung unserer Beteiligungen beitragen m&ouml;chten.</p>
+
+                <h3 class="g-h3">Derzeit offen</h3>
+                <p class="g-body"><a href="download/Arcaris_Praktikum_Ausschreibung-Flyer.pdf" target="_blank" rel="noopener">Praktikant (m/w/d) &mdash; Mehr Informationen im PDF</a></p>
+
+                <a class="g-cta" href="mailto:&#x61;&#x2e;&#x77;&#x61;&#x67;&#x6e;&#x65;&#x72;&#x40;&#x61;&#x72;&#x63;&#x61;&#x72;&#x69;&#x73;&#x2e;&#x64;&#x65;">Jetzt bewerben</a>
+            </div>
+        </section>
+
+        <section id="kontakt" class="g-section">
+            <div class="g-inner">
+                <div class="g-kicker">Kontakt</div>
+                <hr class="g-hairline">
+                <h2 class="g-h2">Der Weg zu uns</h2>
+
+                <div class="g-two-col">
+                    <div>
+                        <p class="g-body">
+                            Arcaris Management GmbH<br>
+                            Cantadorstra&szlig;e 3<br>
+                            40211 D&uuml;sseldorf<br>
+                            <br>
+                            T: +49 (211) 53 81 85 92<br>
+                            Mail: <a href="&#109;&#097;&#105;&#108;&#116;&#111;&#058;&#105;&#110;&#102;&#111;&#064;&#097;&#114;&#099;&#097;&#114;&#105;&#115;&#046;&#100;&#101;">&#105;&#110;&#102;&#111;&#064;&#097;&#114;&#099;&#097;&#114;&#105;&#115;&#046;&#100;&#101;</a>
+                        </p>
+                        <p class="g-body"><a href="download/Anfahrt.pdf" target="_blank" rel="noopener">Mehr Informationen im PDF &rarr;</a></p>
+                    </div>
+                    <div>
+                        <div id="maps-code" class="g-map"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<!--
+        <section id="footer">
+            <div class="footer__content">
+                <h2><a class="link-impressum">Impressum</a></h2>
+            </div>
+        </section>
+-->
+
+        <section id="impressum" class="g-section">
+            <div class="g-inner">
+                <div class="g-kicker">Rechtliches</div>
+                <hr class="g-hairline">
+                <h2 class="g-h2">Impressum</h2>
+
+                <div class="g-two-col">
+                    <div>
+                        <h3 class="g-h3">Angaben gem&auml;&szlig; &sect; 5 TMG</h3>
+                        <p class="g-body">
+                            Arcaris Management GmbH<br>
+                            Cantadorstra&szlig;e 3<br>
+                            40211 D&uuml;sseldorf<br>
+                            <br>
+                            T: +49 (211) 53 81 85 92<br>
+                            Mail: <a href="&#109;&#097;&#105;&#108;&#116;&#111;&#058;&#105;&#110;&#102;&#111;&#064;&#097;&#114;&#099;&#097;&#114;&#105;&#115;&#046;&#100;&#101;">&#105;&#110;&#102;&#111;&#064;&#097;&#114;&#099;&#097;&#114;&#105;&#115;&#046;&#100;&#101;</a><br>
+                            Web: www.arcaris.de
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="g-h3">Registereintrag</h3>
+                        <p class="g-body">
+                            Amtsgericht D&uuml;sseldorf<br>
+                            HRB 71099<br>
+                            <br>
+                            Steuernummer: 133/5803/2207<br>
+                            <br>
+                            Gesch&auml;ftsf&uuml;hrer:<br>
+                            Dipl.-Kfm. Markus Kaufmann<br>
+                            Dipl.-Kfm. Andreas Wagner
+                        </p>
+                    </div>
+                </div>
+
+                <h3 class="g-h3">Copyright &amp; Haftungshinweis</h3>
+                <p class="g-body">S&auml;mtliche von der Arcaris Management GmbH ver&ouml;ffentlichten Informationen, Daten, Graphiken und Publikationen wurden mit gr&ouml;&szlig;ter Sorgfalt und nach bestem Wissen und Gewissen recherchiert, zusammengestellt und, soweit sie von externen Quellen stammen, unver&auml;ndert &uuml;bernommen, ohne jedoch einen Anspruch auf Vollst&auml;ndigkeit und Fehlerfreiheit zu erheben bzw. die M&ouml;glichkeit der Fehlinterpretation bzw. -nutzung durch Nutzer dieses Angebotes auszuschlie&szlig;en. Trotz aller Sorgfalt k&ouml;nnen sich die Daten inzwischen ver&auml;ndert haben. Eine Haftung oder Garantie f&uuml;r die Aktualit&auml;t, Richtigkeit und Vollst&auml;ndigkeit der zur Verf&uuml;gung gestellten Informationen kann daher nicht &uuml;bernommen werden. Gleiches gilt auch f&uuml;r alle anderen Webseiten, auf die dieser Internet-Auftritt direkt oder indirekt mittels Hyperlink verweist. Wir sind f&uuml;r den Inhalt der Webseiten, die aufgrund einer solchen Verbindung erreicht werden, nicht verantwortlich. Dar&uuml;ber hinaus haften wir generell weder f&uuml;r direkte noch indirekte Sch&auml;den, einschlie&szlig;lich entgangenen Gewinns, die durch die Nutzung der auf dieser Webseite bereitgestellten Informationen entstehen. Des Weiteren behalten wir uns das Recht vor, &Auml;nderungen oder Erg&auml;nzungen der bereitgestellten Informationen vorzunehmen. Inhalt, Struktur, Programmierung und Layout dieser Webseite sind urheberrechtlich gesch&uuml;tzt.</p>
+                <p class="g-body">S&auml;mtliche Logos, Firmenschriftz&uuml;ge und Abbildungen d&uuml;rfen von den Nutzern dieses Informationsangebotes nicht f&uuml;r eigene Zwecke, gleich welcher Art, verwendet werden und unterliegen uneingeschr&auml;nkt den Urheber- und Bildrechten der Inhaber/Quellen. Des Weiteren wird darauf hingewiesen, dass s&auml;mtliche Informationen externer Quellen in jeglicher Hinsicht uneingeschr&auml;nkten Copyright-Schutz genie&szlig;en; ausschlie&szlig;lich nur zu Informationszwecken dienen und in keinem Falle &ndash; au&szlig;er zur eigenen Nutzung und Dokumentation (Download) &ndash; ohne schriftliche Einwilligung des jeweiligen Urhebers vervielf&auml;ltigt, in eigene Ver&ouml;ffentlichungen eingebunden bzw. in irgendeiner sonstigen Form von Nutzern dieses Angebotes verwendet werden d&uuml;rfen. Jegliche Haftungs- und Schadensersatzanspr&uuml;che von Nutzern dieses Informationsangebotes aufgrund vorgenannter Gr&uuml;nde gegen&uuml;ber der Arcaris Management GmbH sind ausgeschlossen.</p>
+                <p class="g-body">Desgleichen lehnt Arcaris Management GmbH jegliche rechtlichen Anspr&uuml;che aufgrund von Missbrauch durch Nutzer dieses Internetauftrittes ab. Das Herunterladen der Dateien erfolgt auf eigene Gefahr. Wir &uuml;bernehmen keinerlei Haftung f&uuml;r Sch&auml;den, die direkt oder indirekt durch die Benutzung dieser Dateien entstehen. Dies gilt insbesondere dann, wenn diese Dateien f&uuml;r strafbare Handlungen eingesetzt wurden. Alle genannten Marken und Logos sind gesetzlich gesch&uuml;tzte Warenzeichen. Die gesamten Informationen oder Dateien, deren Nutzung und die Verlinkung zu dieser Webseite unterliegen ausschlie&szlig;lich deutschem Recht.</p>
+            </div>
+        </section>
+
+        <section id="datenschutz" class="g-section">
+            <div class="g-inner">
+                <div class="g-kicker">Datenschutz</div>
+                <hr class="g-hairline">
+                <h2 class="g-h2">Datenschutzerkl&auml;rung</h2>
+
+                <h3 class="g-h3">Allgemeine Hinweise</h3>
+                <p class="g-body">Das Thema Datenschutz und Vertraulichkeit hat bei uns eine sehr hohe Priorit&auml;t. Daher folgen wir den Bestimmungen der EU-Datenschutz-Grundverordnung (EU-DSGVO) sowie geltenden nationalen Datenschutzvorschriften. In der vorliegenden Datenschutzerkl&auml;rung erl&auml;utern wir daher, welche Daten erhoben und wie diese genutzt werden. Personenbezogene Daten sind im Sinne dieser Erkl&auml;rung alle Daten, mit denen Sie pers&ouml;nlich identifiziert werden k&ouml;nnen.</p>
+
+                <h3 class="g-h3">Datenerfassung</h3>
+                <p class="g-body">Beim Besuch unserer Website verzeichnet der Web-Server automatisch Log-Files. Diese beinhalten z. B. den Browsertyp und -version, verwendetes Betriebssystem, Referrer URL (die zuvor besuchte Seite), IP-Adresse des anfragenden Rechners, Zugriffsdatum und -uhrzeit der Serveranfrage und die Dateianfrage des Clients (Dateiname und URL). Diese Daten sind nicht bestimmten Personen zuordenbar. Eine Zusammenf&uuml;hrung dieser Daten mit anderen Datenquellen wird nicht vorgenommen. Personenbezogene Daten werden nur erhoben oder verarbeitet, wenn Sie diese Angaben freiwillig, z.&nbsp;B. im Rahmen einer Anfrage mitteilen.</p>
+
+                <h3 class="g-h3">Datennutzung</h3>
+                <p class="g-body">Log-Files werden nur zum Zweck der statistischen Auswertung gesammelt. Diese Daten sind nicht bestimmten Personen zuordenbar. Eine Zusammenf&uuml;hrung dieser Daten mit anderen Datenquellen wird nicht vorgenommen. Eine Weitergabe dieser Daten an Dritte, zu kommerziellen oder nichtkommerziellen Zwecken, findet ebenfalls nicht statt. Sofern keine erforderlichen Gr&uuml;nde im Zusammenhang mit einer Gesch&auml;ftsabwicklung bestehen, k&ouml;nnen Sie jederzeit der Speicherung Ihrer personenbezogenen Daten mit sofortiger Wirkung schriftlich (z.&nbsp;B. per E-Mail oder postalisch) widerrufen. Ihre Daten werden nicht an Dritte weitergeben, es sei denn, eine Weitergabe ist aufgrund gesetzlicher Vorschriften erforderlich.</p>
+
+                <h3 class="g-h3">Datensicherheit</h3>
+                <p class="g-body">Ihre uns zur Verf&uuml;gung gestellten pers&ouml;nlichen Daten werden durch Ergreifung aller technischen sowie organisatorischen Sicherheitsma&szlig;nahmen so gesichert, dass sie f&uuml;r den Zugriff unberechtigter Dritter unzug&auml;nglich sind. Bei Versendung von sehr sensiblen Daten oder Informationen ist es empfehlenswert, den Postweg zu nutzen, da eine vollst&auml;ndige Datensicherheit per E-Mail nicht gew&auml;hrleistet werden kann.</p>
+
+                <h3 class="g-h3">Betroffenenrechte</h3>
+                <p class="g-body">Nach dem europ&auml;ischen Datenschutzrecht haben Sie jederzeit das Recht auf unentgeltliche Auskunft &uuml;ber Herkunft, Empf&auml;nger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten. Sie haben au&szlig;erdem ein Recht, die Einschr&auml;nkung der Verarbeitung, Berichtigung, Sperrung oder L&ouml;schung der Daten zu verlangen. Hierzu sowie zu weiteren Fragen zum Thema Datenschutz k&ouml;nnen Sie sich jederzeit unter der im Impressum angegebenen Adresse an uns wenden. Des Weiteren steht Ihnen ein Beschwerderecht bei der zust&auml;ndigen Aufsichtsbeh&ouml;rde zu.</p>
+            </div>
+        </section>
+
+
+</div>
+<a href="#" onclick="document.cookie='cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/'; setupCookieBar(); return false;">Click here to revoke the Cookie consent</a>
+
+
+
+<!--
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+-->
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/jquery.mobile-1.3.2.min.js"></script>
+        <script src="js/idangerous_df.swiper.js"></script>
+        <script src="js/respond.src"></script>
+        <script src="js/jquery.backstretch.min.js"></script>
+        <script src="js/main.js"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?forceLang=de&customize=1&tracking=1&thirdparty=1&always=1&refreshPage=1"></script>
+
+		<script type="text/javascript">
+
+
+			document.addEventListener("DOMContentLoaded", function(event) {
+				var mapCode = document.getElementById("maps-code");
+
+
+				cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
+				if (cookieValue == 'CookieAllowed') {
+					// The user has allowed cookies, let's load our external services
+
+					mapCode.innerHTML = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2498.6570352855965!2d6.785911315394782!3d51.225393339104514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b8ca25141518e3%3A0x44f7bea76a050902!2sArcaris%20Management%20GmbH!5e0!3m2!1sde!2sde!4v1576648700968!5m2!1sde!2sde" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>'
+
+				}
+			});
+		</script>
+
+
+    </body>
+</html>
+
+<!-- Localized -->

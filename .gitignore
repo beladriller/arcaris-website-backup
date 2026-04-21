@@ -1,0 +1,19 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# OneDrive metadata
+.~lock.*
+*.tmp
+
+# Claude / tooling
+.claude/
+.vscode/
+.idea/
+
+# Node (falls wir später mal eins reinkriegen)
+node_modules/
+package-lock.json
