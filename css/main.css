@@ -2168,14 +2168,49 @@ h2.name {
 	display: none;
 }
 
+/* Reserve space for logo on mid-sized screens so the centered menu cannot overlap it */
+@media screen and (min-width: 951px) and (max-width: 1600px) {
+	.main-nav {
+		box-sizing: border-box;
+		padding-left: 220px;
+		padding-right: 40px;
+	}
+}
+
+/* Slight shrink so all 8 items fit beside the logo in the upper mid range */
+@media screen and (min-width: 1281px) and (max-width: 1600px) {
+	.main-nav__desktop li {
+		font-size: 12px;
+		letter-spacing: 2.5px;
+		margin: 0 20px;
+	}
+}
+
 @media screen and (min-width: 951px) and (max-width: 1280px) {
 	.main-nav__desktop li {
 		font-size: 11px;
 		letter-spacing: 2px;
 		margin: 0 16px;
 	}
+	.main-nav {
+		padding-left: 190px;
+		padding-right: 20px;
+	}
 	.logo img {
 		width: 130px;
+	}
+}
+
+/* Extra compression for the narrowest desktop range so all items fit beside the logo */
+@media screen and (min-width: 951px) and (max-width: 1100px) {
+	.main-nav__desktop li {
+		font-size: 10px;
+		letter-spacing: 1px;
+		margin: 0 10px;
+	}
+	.main-nav {
+		padding-left: 180px;
+		padding-right: 12px;
 	}
 }
 
@@ -2841,6 +2876,167 @@ section.g-section a:focus {
 	font-weight: 300;
 }
 
+/* ==========================================================================
+   ÜBER UNS — Headline mit Adler-Mark + Flip-Karten
+   ========================================================================== */
+.g-headline-row {
+	display: flex;
+	align-items: center;
+	gap: 36px;
+	margin: 0 0 32px;
+}
+.g-headline-row h2.g-h2 { margin: 0; }
+.g-eagle {
+	flex: 0 0 auto;
+	width: 62px; height: 56px;
+	background-image: url('../img/arcaris_adler_schwarz.png');
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	opacity: 0.92;
+}
+
+.g-flip-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+	margin: 40px 0 0;
+}
+
+.g-flip-card {
+	perspective: 1600px;
+	min-height: 420px;
+}
+.g-flip-card-inner {
+	position: relative;
+	width: 100%; height: 100%;
+	min-height: 420px;
+	transition: transform 1.15s cubic-bezier(0.4, 0, 0.2, 1);
+	transform-style: preserve-3d;
+}
+.g-flip-card:hover .g-flip-card-inner {
+	transform: translateY(-6px) rotateY(180deg);
+}
+
+.g-flip-card-face {
+	position: absolute; inset: 0;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	border-radius: 4px;
+	padding: 40px 34px;
+	display: flex; flex-direction: column;
+	transition: box-shadow .3s ease, background .3s ease, border-color .3s ease;
+}
+.g-flip-card-face-front {
+	background: rgba(255, 255, 255, 0.55);
+	border: 1px solid rgba(139, 90, 43, 0.15);
+	justify-content: space-between;
+}
+.g-flip-card:hover .g-flip-card-face-front {
+	background: rgba(255, 255, 255, 0.82);
+	border-color: rgba(139, 90, 43, 0.32);
+	box-shadow: 0 14px 42px rgba(139, 90, 43, 0.12);
+}
+.g-flip-card-face-back {
+	transform: rotateY(180deg);
+	background: #2b2620;
+	color: #f5f2ec;
+	border: 1px solid #2b2620;
+	overflow-y: auto;
+	/* Minimalistische Scrollbar (Firefox) */
+	scrollbar-width: thin;
+	scrollbar-color: rgba(201, 168, 122, 0.35) transparent;
+}
+/* Minimalistische Scrollbar (WebKit) */
+.g-flip-card-face-back::-webkit-scrollbar { width: 4px; }
+.g-flip-card-face-back::-webkit-scrollbar-track { background: transparent; }
+.g-flip-card-face-back::-webkit-scrollbar-thumb {
+	background: rgba(201, 168, 122, 0.3);
+	border-radius: 2px;
+	transition: background 0.3s ease;
+}
+.g-flip-card-face-back:hover::-webkit-scrollbar-thumb { background: rgba(201, 168, 122, 0.55); }
+.g-flip-card-face-back::-webkit-scrollbar-thumb:hover { background: rgba(201, 168, 122, 0.75); }
+
+.g-flip-card-num {
+	font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+	font-weight: 300;
+	font-size: 56px;
+	line-height: 1;
+	color: #8b5a2b;
+	opacity: 0.7;
+	margin: 0;
+	font-style: italic;
+	letter-spacing: -1.5px;
+}
+.g-flip-card-face-back .g-flip-card-num {
+	color: #c9a87a;
+	opacity: 0.8;
+	font-size: 36px;
+	margin: 0 0 14px;
+}
+
+.g-flip-card-body-group { display: flex; flex-direction: column; }
+
+.g-flip-card-title {
+	font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+	font-size: 15px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	color: #2b2620;
+	margin: 0 0 18px;
+	font-weight: 400;
+}
+.g-flip-card-face-back .g-flip-card-title {
+	color: #f5f2ec;
+	margin-bottom: 18px;
+}
+
+.g-flip-card-short {
+	font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+	font-size: 19px;
+	line-height: 1.5;
+	color: #2b2620;
+	margin: 0;
+	font-weight: 300;
+}
+
+.g-flip-card-body {
+	font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+	color: rgba(245, 242, 236, 0.88);
+	font-size: 14px;
+	line-height: 1.75;
+	font-weight: 300;
+	margin: 0;
+}
+
+.g-flip-hint {
+	font: 11px/1 "roboto_slabregular", "Roboto Slab", Georgia, serif;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	color: #8b5a2b;
+	display: flex; align-items: center; gap: 12px;
+	transition: gap .3s ease, color .3s ease;
+}
+.g-flip-hint-line {
+	width: 22px; height: 1px;
+	background: currentColor;
+	transition: width .3s ease;
+	display: inline-block;
+}
+.g-flip-hint-chevron {
+	width: 7px; height: 7px;
+	border-top: 1px solid currentColor;
+	border-right: 1px solid currentColor;
+	transform: rotate(45deg);
+	display: inline-block;
+	transition: transform .3s ease;
+	margin-left: -4px;
+}
+.g-flip-card:hover .g-flip-hint { gap: 14px; }
+.g-flip-card:hover .g-flip-hint-line { width: 34px; }
+.g-flip-card:hover .g-flip-hint-chevron { transform: rotate(45deg) translate(2px, -2px); }
+
 /* Portfolio — Original-Verhalten: Logo unter dem Bild sichtbar, fährt beim Hover mit Text hoch */
 .g-portfolio {
 	display: grid;
@@ -3030,10 +3226,16 @@ body.is-scrolled .main-nav__desktop a:focus {
 }
 
 /* Responsive */
+@media (max-width: 1100px) {
+	.g-flip-grid { grid-template-columns: 1fr; gap: 20px; }
+	.g-flip-card, .g-flip-card-inner { min-height: 340px; }
+}
 @media (max-width: 900px) {
 	section.g-section { padding: 80px 24px !important; }
 	section.g-section h2.g-h2 { font-size: 36px; }
 	section.g-section p.g-lead { font-size: 18px; }
-	.g-two-col, .g-three-col, .g-portfolio, .g-team { grid-template-columns: 1fr; gap: 32px; }
+	.g-two-col, .g-three-col, .g-portfolio, .g-team, .g-flip-grid { grid-template-columns: 1fr; gap: 32px; }
 	.g-team > div > img { max-width: 320px; }
+	.g-headline-row { gap: 20px; }
+	.g-eagle { width: 44px; height: 40px; }
 }
