@@ -3004,7 +3004,10 @@ section.g-section a:focus {
 	font-weight: 300;
 	font-size: 20px;
 	margin: 0 0 10px;
-	color: #0d2950;
+	color: #739dd3;
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 5px;
 }
 .g-principles-2col article p {
 	font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
@@ -3192,6 +3195,32 @@ section.g-section a:focus {
 	grid-template-columns: repeat(2, 1fr);
 	gap: 32px;
 	margin-top: 32px;
+}
+
+/* Exits — Sub-Sektion innerhalb von #portfolio, gleiche Bausteine wie Hauptsektion */
+.g-exits {
+	margin-top: 100px;
+}
+section.g-section h3.g-exits-title {
+	font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+	font-weight: 300;
+	font-style: italic;
+	font-size: clamp(30px, 3.8vw, 42px);
+	line-height: 1.2;
+	margin: 0 0 32px;
+	color: #0d2950;
+	letter-spacing: -0.2px;
+}
+
+/* Bilder + Logo bei Exits ausgrauen — signalisiert "nicht mehr aktiv" */
+.g-exits .g-portfolio-card img.photo,
+.g-exits .g-portfolio-card .g-portfolio-logo {
+	filter: grayscale(1);
+	transition: filter 0.5s ease;
+}
+.g-exits .g-portfolio-card:hover img.photo,
+.g-exits .g-portfolio-card:hover .g-portfolio-logo {
+	filter: grayscale(0);
 }
 
 .g-portfolio-card {
