@@ -29,7 +29,10 @@ html { scrollbar-gutter: stable; }
 }
 #preloader .preloader-stage {
 	position: absolute;
-	top: 0; left: 0; right: 0; bottom: 0;
+	top: 0; bottom: 0;
+	/* gleiche Geometrie wie .start__content (inside #wrapper mit padding 0 20px) */
+	left: 0;
+	width: calc(100% - 40px);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -37,47 +40,86 @@ html { scrollbar-gutter: stable; }
 	text-align: center;
 	padding: 40px;
 	box-sizing: border-box;
+	z-index: 1;
 }
 #preloader .preloader-logo-wrap {
 	width: 180px;
-	height: 90px;
 	margin: 0 0 32px;
 	position: relative;
 	flex: 0 0 auto;
+	/* Höhe wird durch das Logo bestimmt, damit es exakt der Hero-Logo-Box (width 180, height auto) entspricht */
 }
 #preloader .preloader-logo {
-	position: absolute;
-	top: 0; left: 0;
 	width: 180px;
 	height: auto;
-	filter: none;
 	display: block;
+	filter: brightness(0); /* schwarz auf weißem Hintergrund */
 }
 #preloader .preloader-ring {
 	position: absolute;
 	top: 50%; left: 50%;
-	width: 240px; height: 240px;
-	margin: -120px 0 0 -120px;
+	width: 340px; height: 340px;
+	margin: -170px 0 0 -170px;
 	border-radius: 50%;
-	border: 1.5px solid rgba(0, 69, 140, 0.08);
-	border-top-color: rgba(0, 69, 140, 0.55);
+	border: 1.5px solid rgba(13, 41, 80, 0.10);
+	border-top-color: rgba(13, 41, 80, 0.55);
 	animation: preloaderSpin 1.4s linear infinite !important;
 	pointer-events: none;
 	box-sizing: border-box;
 }
-#preloader .preloader-slot-hairline { flex: 0 0 auto; height: 1px; width: 80px; margin: 0 0 24px; }
-#preloader .preloader-slot-kicker   { flex: 0 0 auto; height: 14.4px; margin: 0 0 48px; width: 100%; max-width: 720px; }
-#preloader .preloader-slot-h1       { flex: 0 0 auto; height: 156px; margin: 0 0 48px; width: 100%; max-width: 720px; }
-#preloader .preloader-slot-cta      { flex: 0 0 auto; height: 23px; }
+/* Ghost-Kopien der echten Hero-Elemente — identische CSS-Metriken -> gleiche Höhen -> Logo landet auf derselben Y-Position wie im Hero */
+#preloader .preloader-ghost {
+	visibility: hidden;
+	pointer-events: none;
+	user-select: none;
+	flex: 0 0 auto;
+	text-align: center;
+}
+#preloader .preloader-ghost-hairline {
+	width: 80px;
+	height: 1px;
+	border: 0;
+	background: transparent;
+	margin: 0 0 24px;
+}
+#preloader .preloader-ghost-kicker {
+	font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+	font-size: 12px;
+	/* line-height default - matches .start__kicker */
+	letter-spacing: 5px;
+	text-transform: uppercase;
+	margin: 0 0 48px;
+	width: 100%;
+	max-width: 720px;
+}
+#preloader .preloader-ghost-h1 {
+	font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+	font-weight: 300;
+	font-size: 40px;
+	line-height: 1.3;
+	max-width: 720px;
+	margin: 0 0 48px;
+	padding: 0;
+}
+#preloader .preloader-ghost-cta {
+	display: inline-block;
+	font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+	font-size: 14px;
+	/* line-height default - matches .start__cta */
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	padding-bottom: 6px;
+	border-bottom: 1px solid transparent;
+}
 @keyframes preloaderSpin { to { transform: rotate(360deg); } }
 
 @media screen and (max-width: 640px) {
-	#preloader .preloader-logo-wrap { width: 130px; height: 65px; margin: 0 0 24px; }
+	#preloader .preloader-logo-wrap { width: 130px; margin: 0 0 24px; }
 	#preloader .preloader-logo { width: 130px; }
-	#preloader .preloader-ring { width: 180px; height: 180px; margin: -90px 0 0 -90px; }
-	#preloader .preloader-slot-kicker { height: 13.2px; margin-bottom: 36px; }
-	#preloader .preloader-slot-h1 { height: 109.2px; margin-bottom: 36px; }   /* 28px × 1.3 × 3 = 109.2 */
-	#preloader .preloader-slot-cta { height: 20px; }
+	#preloader .preloader-ring { width: 240px; height: 240px; margin: -120px 0 0 -120px; }
+	#preloader .preloader-ghost-kicker { font-size: 11px; letter-spacing: 4px; margin-bottom: 36px; }
+	#preloader .preloader-ghost-h1 { font-size: 28px; margin-bottom: 36px; }
+	#preloader .preloader-ghost-cta { font-size: 12px; letter-spacing: 3px; }
 }
         </style>
 
@@ -109,10 +151,10 @@ html { scrollbar-gutter: stable; }
 			<img class="preloader-logo" src="img/Arcaris_logo_blau_verlauf.png" alt="Arcaris">
 			<div class="preloader-ring"></div>
 		</div>
-		<div class="preloader-slot-hairline"></div>
-		<div class="preloader-slot-kicker"></div>
-		<div class="preloader-slot-h1"></div>
-		<div class="preloader-slot-cta"></div>
+		<hr class="preloader-ghost preloader-ghost-hairline">
+		<p class="preloader-ghost preloader-ghost-kicker">D&uuml;sseldorf &middot; seit 2013</p>
+		<p class="preloader-ghost preloader-ghost-h1">Ihr Partner f&uuml;r Direkt&shy;beteiligungen im deutschen Mittelstand.</p>
+		<span class="preloader-ghost preloader-ghost-cta">Herzlich willkommen</span>
 	</div>
 </div>
 <div id="border_left"></div>
@@ -194,6 +236,7 @@ html { scrollbar-gutter: stable; }
 			<source src="img/hero-duesseldorf.mp4" type="video/mp4">
 		</video>
 		<div class="hero-video__overlay"></div>
+		<div class="hero-fade" aria-hidden="true"></div>
 	</div>
 
 	<div class="start__content">
@@ -309,63 +352,54 @@ html { scrollbar-gutter: stable; }
                 <h2 class="g-h2">Investitionsansatz</h2>
                 <p class="g-lead">Arcaris beteiligt sich am deutschen Mittelstand. Unser Investitionsfokus liegt auf dem verarbeitenden Gewerbe und dem Dienstleistungssektor.</p>
 
-                <div class="g-two-col">
-                    <div>
-                        <h3 class="g-h3">Typische Beteiligungsanl&auml;sse</h3>
-                        <ul class="g-list">
-                            <li>Klassische Unternehmensnachfolge</li>
-                            <li>Management Buy-Out und Management Buy-In</li>
-                            <li>Konzernausgr&uuml;ndungen</li>
-                        </ul>
+                <div class="g-profile">
+                    <div class="g-profile-head">
+                        <span class="g-profile-eb">Steckbrief</span>
+                        <h3>Unsere Beteiligungs&shy;partner.</h3>
                     </div>
-                    <div>
-                        <h3 class="g-h3">Eigenschaften der Beteiligungen</h3>
-                        <ul class="g-list">
-                            <li>Unternehmenssitz in Deutschland</li>
-                            <li>Umsatz zwischen 5 und 25 Mio. &euro;</li>
-                            <li>Nachhaltig profitable Gesch&auml;ftsmodelle</li>
-                        </ul>
-                    </div>
+                    <ul class="g-criteria">
+                        <li><span class="k">Sitz</span><span class="v">Deutschland</span></li>
+                        <li><span class="k">Anl&auml;sse</span><span class="v">Nachfolge &middot; MBO / MBI &middot; Konzernausgr&uuml;ndung</span></li>
+                        <li><span class="k">Umsatz</span><span class="v">5&ndash;25 Mio. &euro;</span></li>
+                        <li><span class="k">Sektor</span><span class="v">Verarbeitendes Gewerbe &middot; Dienstleistung</span></li>
+                        <li><span class="k">Profil</span><span class="v">Nachhaltig profitabel</span></li>
+                        <li><span class="k">Horizont</span><span class="v">Langfristig</span></li>
+                    </ul>
                 </div>
 
-                <h3 class="g-h3">Handlungsmaxime</h3>
-                <p class="g-body">Wir verstehen uns als Unternehmer und handeln auch entsprechend. Unsere Prinzipien im Rahmen des Beteiligungsprozesses und der weiteren Zusammenarbeit sind:</p>
-                <div class="g-three-col">
-                    <div class="g-card">
-                        <div class="g-num">01</div>
-                        <h4>Ma&szlig;geschneiderte L&ouml;sungen</h4>
-                        <p>Wir bieten ma&szlig;geschneiderte Transaktions- und Finanzierungsl&ouml;sungen an, welche die individuelle Lebenssituation und Lebensplanung unserer Gesch&auml;ftspartner zum Ausgangspunkt nehmen.</p>
-                    </div>
-                    <div class="g-card">
-                        <div class="g-num">02</div>
-                        <h4>Partnerschaftlicher Umgang</h4>
-                        <p>Wesentliche Voraussetzung f&uuml;r eine Beteiligung ist bei uns, dass die Chemie zwischen den beteiligten Personen stimmt. Wir begreifen uns als gleichwertige Partner, denn nur so k&ouml;nnen unternehmerische Vorhaben erfolgreich sein.</p>
-                    </div>
-                    <div class="g-card">
-                        <div class="g-num">03</div>
-                        <h4>Integrit&auml;t und Fairness</h4>
-                        <p>Wir sind davon &uuml;berzeugt, dass Integrit&auml;t und Fairness die Basis f&uuml;r den Umgang miteinander und den langfristigen Erfolg sind. Hieran richten wir unser eigenes Handeln aus.</p>
-                    </div>
-                </div>
-
-                <h3 class="g-h3">Entwicklungskonzept</h3>
-                <p class="g-body">Wir wollen nachhaltige Werte schaffen. Unser Entwicklungskonzept basiert daher auf drei wesentlichen Grundgedanken:</p>
-                <div class="g-three-col">
-                    <div class="g-card">
-                        <div class="g-num">01</div>
-                        <h4>Langfristiger Horizont</h4>
-                        <p>Statt kurzfristiger Renditemaximierung legen wir Wert auf langfristig tragf&auml;hige Konzepte. Wir und unsere Investoren sind uns bewusst, dass dies einen langfristigen Investitionszeitraum impliziert.</p>
-                    </div>
-                    <div class="g-card">
-                        <div class="g-num">02</div>
-                        <h4>Wertsteigerung</h4>
-                        <p>Fokus unseres Handelns liegt auf der strategischen und operativen Weiterentwicklung des Unternehmens. Mit unserer Erfahrung und unserem Netzwerk unterst&uuml;tzen wir unsere Beteiligungen bei der Umsetzung.</p>
-                    </div>
-                    <div class="g-card">
-                        <div class="g-num">03</div>
-                        <h4>Soziale Verantwortung</h4>
-                        <p>Im Mittelpunkt unseres Handelns stehen die F&uuml;hrungskr&auml;fte und Mitarbeiter unserer Beteiligungen. Wir sind uns bewusst, dass diese Menschen unser gr&ouml;&szlig;tes Asset sind. Dementsprechend legen wir einen besonderen Augenmerk auf die Menschen.</p>
-                    </div>
+                <div class="g-principles-2col">
+                    <section>
+                        <h3>Was Sie von uns erwarten k&ouml;nnen.</h3>
+                        <p class="g-principles-intro">Wir verstehen uns als Unternehmer und handeln auch entsprechend. Unsere Prinzipien im Rahmen des Beteiligungsprozesses und der weiteren Zusammenarbeit sind drei:</p>
+                        <article>
+                            <h4>Ma&szlig;geschneiderte L&ouml;sungen</h4>
+                            <p>Wir bieten Transaktions- und Finanzierungsl&ouml;sungen an, welche die individuelle Lebenssituation und Lebensplanung unserer Gesch&auml;ftspartner zum Ausgangspunkt nehmen.</p>
+                        </article>
+                        <article>
+                            <h4>Partnerschaftlicher Umgang</h4>
+                            <p>Die Chemie zwischen den beteiligten Personen muss stimmen. Wir begreifen uns als gleichwertige Partner &mdash; nur so k&ouml;nnen unternehmerische Vorhaben erfolgreich sein.</p>
+                        </article>
+                        <article>
+                            <h4>Integrit&auml;t und Fairness</h4>
+                            <p>Wir sind davon &uuml;berzeugt, dass dies die Basis f&uuml;r den Umgang miteinander und den langfristigen Erfolg ist. Hieran richten wir unser eigenes Handeln aus.</p>
+                        </article>
+                    </section>
+                    <section>
+                        <h3>Wie wir gemeinsam entwickeln.</h3>
+                        <p class="g-principles-intro">Wir wollen nachhaltige Werte schaffen. Unser Entwicklungskonzept f&uuml;r die weitere Begleitung unserer Beteiligungen basiert auf drei Grundgedanken:</p>
+                        <article>
+                            <h4>Langfristiger Horizont</h4>
+                            <p>Statt kurzfristiger Renditemaximierung legen wir Wert auf langfristig tragf&auml;hige Konzepte. Dies impliziert einen entsprechend langen Investitionszeitraum.</p>
+                        </article>
+                        <article>
+                            <h4>Wertsteigerung</h4>
+                            <p>Fokus unseres Handelns liegt auf der strategischen und operativen Weiterentwicklung des Unternehmens. Mit unserer Erfahrung und unserem Netzwerk unterst&uuml;tzen wir bei der Umsetzung.</p>
+                        </article>
+                        <article>
+                            <h4>Soziale Verantwortung</h4>
+                            <p>F&uuml;hrungskr&auml;fte und Mitarbeiter sind unser gr&ouml;&szlig;tes Asset. Wir legen einen besonderen Augenmerk auf die Menschen.</p>
+                        </article>
+                    </section>
                 </div>
             </div>
         </section>
@@ -544,7 +578,15 @@ html { scrollbar-gutter: stable; }
                         <p class="g-body"><a href="download/Anfahrt.pdf" target="_blank" rel="noopener">Mehr Informationen im PDF &rarr;</a></p>
                     </div>
                     <div>
-                        <div id="maps-code" class="g-map"></div>
+                        <div id="maps-code" class="g-map">
+                            <button type="button" class="g-map__placeholder" id="mapLoadBtn" data-map-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2498.524964872307!2d6.788040977906492!3d51.22782603108707!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b8ca25141518e3%3A0x44f7bea76a050902!2sArcaris%20Management%20GmbH!5e0!3m2!1sde!2sde!4v1776865678289!5m2!1sde!2sde" aria-label="Google Maps Karte laden">
+                                <img src="img/map-placeholder.jpg" alt="Standort Arcaris Management GmbH in D&uuml;sseldorf" class="g-map__image" loading="lazy">
+                                <span class="g-map__cta">
+                                    <span class="g-map__cta-title">Karte anzeigen</span>
+                                    <span class="g-map__cta-note">Zum Schutz Ihrer Privatsph&auml;re ist die Karte nur nach Best&auml;tigung der Cookies aktiviert.</span>
+                                </span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -640,23 +682,26 @@ html { scrollbar-gutter: stable; }
         <script src="js/main.js"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?forceLang=de&customize=1&tracking=1&thirdparty=1&always=1&refreshPage=1"></script>
 
-		<script type="text/javascript">
-
-
-			document.addEventListener("DOMContentLoaded", function(event) {
-				var mapCode = document.getElementById("maps-code");
-
-
-				cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
-				if (cookieValue == 'CookieAllowed') {
-					// The user has allowed cookies, let's load our external services
-
-					mapCode.innerHTML = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2498.6570352855965!2d6.785911315394782!3d51.225393339104514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b8ca25141518e3%3A0x44f7bea76a050902!2sArcaris%20Management%20GmbH!5e0!3m2!1sde!2sde!4v1576648700968!5m2!1sde!2sde" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>'
-
-				}
-			});
+		<script>
+			/* Click-to-Load Google Maps: ersetzt den Platzhalter erst nach
+			   expliziter User-Zustimmung per Klick mit dem echten iframe. */
+			(function () {
+				var btn = document.getElementById('mapLoadBtn');
+				if (!btn) return;
+				btn.addEventListener('click', function () {
+					var src = btn.getAttribute('data-map-src');
+					if (!src) return;
+					var iframe = document.createElement('iframe');
+					iframe.setAttribute('src', src);
+					iframe.setAttribute('allowfullscreen', '');
+					iframe.setAttribute('loading', 'eager');
+					iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+					iframe.setAttribute('title', 'Google Maps — Arcaris Management GmbH');
+					iframe.style.border = '0';
+					btn.replaceWith(iframe);
+				}, { once: true });
+			})();
 		</script>
-
 
     </body>
 </html>

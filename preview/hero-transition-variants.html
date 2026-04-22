@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Arcaris — Hero-zu-Content Übergänge: 10 Varianten</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/main.css">
+<style>
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #fff; overflow-x: hidden; }
+body {
+  font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+  color: #0d2950;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ==========================================================================
+   SWITCHER
+   ========================================================================== */
+.variant-switcher {
+  position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 10000;
+  display: flex; gap: 4px; padding: 6px 8px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 24px rgba(13, 41, 80, 0.12), 0 1px 0 rgba(115, 157, 211, 0.18);
+}
+.variant-switcher button {
+  appearance: none; border: 0; background: transparent; color: #0d2950;
+  font: 12px/1 "roboto_slabregular", "Roboto Slab", sans-serif; letter-spacing: 2px;
+  padding: 9px 14px; border-radius: 999px; cursor: pointer; text-transform: uppercase;
+  opacity: 0.55; transition: background 0.2s, opacity 0.2s, color 0.2s;
+}
+.variant-switcher button:hover { opacity: 1; }
+.variant-switcher button.active { background: #0d2950; color: #fff; opacity: 1; }
+.variant-label {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10000;
+  padding: 10px 18px; border-radius: 999px; background: rgba(13, 41, 80, 0.85); color: #fff;
+  font: 11px/1 "roboto_slabregular", sans-serif; letter-spacing: 3px; text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+/* ==========================================================================
+   VARIANT CONTAINER
+   ========================================================================== */
+.variant { display: none; }
+.variant.active { display: block; }
+
+/* ==========================================================================
+   SHARED HERO + CONTENT PRIMITIVES
+   ========================================================================== */
+.hero {
+  position: relative;
+  height: 100vh;
+  color: #fff;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: #0d2950 url('../img/hero-duesseldorf-poster.jpg') center/cover no-repeat;
+  z-index: 0;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(13, 41, 80, 0.55) 0%, rgba(13, 41, 80, 0.35) 50%, rgba(13, 41, 80, 0.65) 100%);
+  z-index: 1;
+}
+.hero-content {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 40px;
+  z-index: 2;
+}
+.hero-logo {
+  width: 180px; height: auto; display: block;
+  filter: brightness(0) invert(1);
+  margin: 0 0 32px;
+}
+.hero-hairline { width: 80px; height: 1px; background: rgba(255, 255, 255, 0.7); border: 0; margin: 0 0 24px; }
+.hero-kicker {
+  font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+  font-size: 12px; letter-spacing: 5px; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88); margin: 0 0 48px;
+}
+.hero-h1 {
+  font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+  font-weight: 300; font-size: 40px; line-height: 1.3;
+  max-width: 720px; margin: 0 0 48px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+.hero-cta {
+  font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+  font-size: 14px; letter-spacing: 4px; text-transform: uppercase;
+  color: #fff; padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.content {
+  position: relative;
+  background: #fff;
+  color: #0d2950;
+  padding: 140px 40px 200px;
+  min-height: 100vh;
+}
+.content-inner { max-width: 1240px; margin: 0 auto; }
+.content-kicker {
+  font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+  font-size: 12px; letter-spacing: 5px; text-transform: uppercase;
+  color: #739dd3; margin: 0 0 22px;
+}
+.content-hairline { width: 100px; height: 1px; background: #739dd3; opacity: 0.4; border: 0; margin: 0 0 36px; }
+.content-headline {
+  display: flex; align-items: center; gap: 36px; margin: 0 0 32px;
+}
+.content-headline h2 {
+  font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+  font-weight: 300; font-style: italic;
+  font-size: 52px; line-height: 1.18; margin: 0;
+  color: #0d2950; letter-spacing: -0.3px;
+}
+.eagle {
+  flex: 0 0 auto; width: 79px; height: 58px;
+  background: url('../img/arcaris_adler_schwarz.png') center/contain no-repeat;
+  opacity: 0.92;
+  transform: translateY(-64px);
+}
+.content-lead {
+  font-size: 22px; line-height: 1.55; color: #0d2950; max-width: 66ch;
+  margin: 0 0 32px; font-weight: 300;
+}
+.content-body {
+  font-size: 17px; line-height: 1.85; color: #6e7f95; max-width: 66ch;
+  margin: 0 0 20px; font-weight: 300;
+}
+
+/* ==========================================================================
+   V1 — GENTLE GRADIENT FADE
+   Bottom 180px des Hero fadet weich zu weiß, Content startet nahtlos.
+   ========================================================================== */
+[data-name="v1"] .hero::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 180px;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, #fff 100%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   V2 — STICKY PARALLAX
+   Hero liegt fest, Content schiebt sich mit sanftem Schatten darüber.
+   ========================================================================== */
+[data-name="v2"] .hero {
+  position: sticky; top: 0; z-index: 0;
+}
+[data-name="v2"] .content {
+  position: relative; z-index: 1;
+  box-shadow: 0 -30px 60px rgba(13, 41, 80, 0.25);
+}
+
+/* ==========================================================================
+   V3 — SCROLL ZOOM-OUT (JS-gesteuert)
+   Hero zoomt leicht zurück + dimmt, Content taucht davor auf.
+   ========================================================================== */
+[data-name="v3"] .hero {
+  position: sticky; top: 0; z-index: 0;
+  transform-origin: center top;
+  will-change: transform, opacity, filter;
+}
+[data-name="v3"] .content {
+  position: relative; z-index: 1;
+}
+
+/* ==========================================================================
+   V4 — WHITE CURTAIN RISE (JS)
+   Weißer Vorhang steigt synchron zum Scroll auf und deckt den Hero zu.
+   ========================================================================== */
+[data-name="v4"] .hero {
+  position: sticky; top: 0; z-index: 0;
+}
+[data-name="v4"] .v4-curtain {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 100vh;
+  background: #fff;
+  transform-origin: bottom; transform: scaleY(0);
+  z-index: 3; pointer-events: none;
+  will-change: transform;
+}
+[data-name="v4"] .content { position: relative; z-index: 1; }
+
+/* ==========================================================================
+   V5 — BLUR DISSOLVE (JS)
+   Hero verschwimmt + Overlay wird dunkler bei Scroll, Content löst ihn ab.
+   ========================================================================== */
+[data-name="v5"] .hero {
+  position: sticky; top: 0; z-index: 0;
+}
+[data-name="v5"] .hero-bg {
+  transition: filter 0.15s linear, transform 0.15s linear;
+  will-change: filter, transform;
+}
+[data-name="v5"] .hero-overlay {
+  transition: opacity 0.15s linear;
+  will-change: opacity;
+}
+[data-name="v5"] .hero-content {
+  transition: opacity 0.15s linear;
+  will-change: opacity;
+}
+[data-name="v5"] .content { position: relative; z-index: 1; }
+
+/* ==========================================================================
+   V6 — SKY WAVE DIVIDER
+   Organische Welle trennt Hero von Content, in Sekundärfarbe Sky.
+   ========================================================================== */
+[data-name="v6"] .wave-divider {
+  position: absolute; left: 0; right: 0; bottom: -1px;
+  height: 140px; z-index: 3; pointer-events: none;
+  line-height: 0;
+}
+[data-name="v6"] .wave-divider svg {
+  width: 100%; height: 100%; display: block;
+}
+
+/* ==========================================================================
+   V7 — SKY LINE BRIDGE (JS + CSS)
+   Sky-Line zeichnet sich links→rechts, während Content aus Blur auftaucht.
+   ========================================================================== */
+[data-name="v7"] .hero {
+  position: sticky; top: 0; z-index: 0;
+}
+[data-name="v7"] .sky-line-wrap {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  z-index: 3; pointer-events: none;
+  overflow: hidden;
+}
+[data-name="v7"] .sky-line-wrap::before {
+  content: ""; display: block; height: 1px; width: 100%; background: #739dd3;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 1.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+[data-name="v7"] .sky-line-wrap.visible::before { transform: scaleX(1); }
+[data-name="v7"] .content {
+  position: relative; z-index: 1;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+}
+[data-name="v7"] .content.visible { opacity: 1; transform: none; }
+
+/* ==========================================================================
+   V8 — TYPOGRAPHY DECAY (JS)
+   Hero-Text schrumpft + fadet beim Scroll, H1 trägt sich in die Content-Zone.
+   ========================================================================== */
+[data-name="v8"] .hero {
+  position: sticky; top: 0; z-index: 0;
+}
+[data-name="v8"] .hero-logo,
+[data-name="v8"] .hero-hairline,
+[data-name="v8"] .hero-kicker,
+[data-name="v8"] .hero-h1,
+[data-name="v8"] .hero-cta {
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+[data-name="v8"] .content { position: relative; z-index: 1; }
+
+/* ==========================================================================
+   V9 — CLIP-PATH DIAGONAL
+   Content tritt mit diagonaler Polygon-Maske ein — schräger Vorhang.
+   ========================================================================== */
+[data-name="v9"] .hero { z-index: 0; }
+[data-name="v9"] .content {
+  position: relative; z-index: 1;
+  margin-top: -100px;
+  clip-path: polygon(0 100px, 100% 0, 100% 100%, 0 100%);
+  padding-top: 180px;
+}
+
+/* ==========================================================================
+   V10 — STICKY CHAPTER CARD
+   Kleine Kapitel-Plakette dockt am Hero-Content-Übergang.
+   ========================================================================== */
+[data-name="v10"] .v10-chapter {
+  position: relative; z-index: 5;
+  width: max-content; margin: -44px auto 0;
+  padding: 22px 44px;
+  background: #fff;
+  border: 1px solid rgba(115, 157, 211, 0.4);
+  box-shadow: 0 20px 50px rgba(13, 41, 80, 0.12);
+}
+[data-name="v10"] .v10-chapter .eb {
+  font: 10px/1 "roboto_slabregular", Georgia, serif;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: #739dd3; margin: 0 0 8px; display: block;
+}
+[data-name="v10"] .v10-chapter .t {
+  font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+  font-style: italic; font-weight: 300; font-size: 22px;
+  color: #0d2950;
+}
+[data-name="v10"] .content { padding-top: 100px; }
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero-h1 { font-size: 28px; }
+  .content-headline h2 { font-size: 36px; }
+  .eagle { width: 55px; height: 40px; transform: translateY(-44px); }
+  .content { padding: 80px 24px 140px; }
+}
+</style>
+</head>
+<body>
+
+<!-- =========================================================================
+     SWITCHER
+     ========================================================================= -->
+<nav class="variant-switcher" role="tablist" aria-label="Hero-Transition Varianten">
+  <button data-v="v1" class="active" role="tab">1</button>
+  <button data-v="v2" role="tab">2</button>
+  <button data-v="v3" role="tab">3</button>
+  <button data-v="v4" role="tab">4</button>
+  <button data-v="v5" role="tab">5</button>
+  <button data-v="v6" role="tab">6</button>
+  <button data-v="v7" role="tab">7</button>
+  <button data-v="v8" role="tab">8</button>
+  <button data-v="v9" role="tab">9</button>
+  <button data-v="v10" role="tab">10</button>
+</nav>
+<div class="variant-label" id="variantLabel">1 · Gentle Gradient Fade</div>
+
+<main>
+
+<template id="heroTpl">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <img class="hero-logo" src="../img/Arcaris_logo_blau_verlauf.png" alt="Arcaris">
+      <hr class="hero-hairline">
+      <p class="hero-kicker">D&uuml;sseldorf &middot; seit 2013</p>
+      <h1 class="hero-h1">Ihr Partner f&uuml;r Direkt&shy;beteiligungen im deutschen Mittelstand.</h1>
+      <a class="hero-cta" href="#">Herzlich willkommen</a>
+    </div>
+  </section>
+</template>
+
+<template id="contentTpl">
+  <section class="content">
+    <div class="content-inner">
+      <p class="content-kicker">Profil</p>
+      <hr class="content-hairline">
+      <div class="content-headline">
+        <h2>&Uuml;ber uns</h2>
+        <div class="eagle" aria-hidden="true"></div>
+      </div>
+      <p class="content-lead">Die Arcaris Management GmbH ist eine von Unternehmern gegr&uuml;ndete unabh&auml;ngige Beteiligungsgesellschaft. &Uuml;ber sie investiert ein breites Netzwerk an Unternehmern und Unternehmerfamilien in den deutschen Mittelstand.</p>
+      <p class="content-body">Wir verstehen uns als Unternehmer und handeln auch entsprechend. Unsere Prinzipien im Rahmen des Beteiligungsprozesses und der weiteren Zusammenarbeit sind ma&szlig;geschneiderte L&ouml;sungen, partnerschaftlicher Umgang und die Grundwerte Integrit&auml;t und Fairness.</p>
+      <p class="content-body">Wir wollen nachhaltige Werte schaffen. Unser Entwicklungskonzept basiert auf einem langfristigen Horizont, strategischer und operativer Wertsteigerung und einer ausgepr&auml;gten sozialen Verantwortung gegen&uuml;ber den Menschen unserer Beteiligungen.</p>
+    </div>
+  </section>
+</template>
+
+<div class="variant active" data-name="v1"></div>
+<div class="variant" data-name="v2"></div>
+<div class="variant" data-name="v3"></div>
+<div class="variant" data-name="v4"></div>
+<div class="variant" data-name="v5"></div>
+<div class="variant" data-name="v6"></div>
+<div class="variant" data-name="v7"></div>
+<div class="variant" data-name="v8"></div>
+<div class="variant" data-name="v9"></div>
+<div class="variant" data-name="v10"></div>
+
+</main>
+
+<script>
+/* =========================================================================
+   RENDER + SWITCHER
+   ========================================================================= */
+(function () {
+  const LABELS = {
+    v1:  '1 · Gentle Gradient Fade',
+    v2:  '2 · Sticky Parallax (Schatten-Saum)',
+    v3:  '3 · Scroll Zoom-Out (Hero schrumpft)',
+    v4:  '4 · White Curtain Rise',
+    v5:  '5 · Blur Dissolve (Hero unscharf)',
+    v6:  '6 · Sky Wave Divider',
+    v7:  '7 · Sky Line Bridge (Linie + Fade-in)',
+    v8:  '8 · Typography Decay (Hero-Text schwindet)',
+    v9:  '9 · Clip-path Diagonal',
+    v10: '10 · Sticky Chapter Card'
+  };
+
+  const heroTpl = document.getElementById('heroTpl');
+  const contentTpl = document.getElementById('contentTpl');
+
+  // Render each variant with hero + optional extras + content
+  document.querySelectorAll('.variant').forEach(v => {
+    const name = v.dataset.name;
+    const hero = heroTpl.content.cloneNode(true).querySelector('.hero');
+    const content = contentTpl.content.cloneNode(true).querySelector('.content');
+
+    if (name === 'v4') {
+      const curtain = document.createElement('div');
+      curtain.className = 'v4-curtain';
+      hero.appendChild(curtain);
+    }
+    if (name === 'v6') {
+      const wave = document.createElement('div');
+      wave.className = 'wave-divider';
+      wave.innerHTML = '<svg viewBox="0 0 1440 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,100 C240,20 480,160 720,80 C960,0 1200,140 1440,60 L1440,140 L0,140 Z" fill="#fff"/><path d="M0,100 C240,20 480,160 720,80 C960,0 1200,140 1440,60" stroke="#739dd3" stroke-width="1" fill="none" opacity="0.5"/></svg>';
+      hero.appendChild(wave);
+    }
+    if (name === 'v7') {
+      const line = document.createElement('div');
+      line.className = 'sky-line-wrap';
+      hero.appendChild(line);
+    }
+    v.appendChild(hero);
+
+    if (name === 'v10') {
+      const card = document.createElement('div');
+      card.className = 'v10-chapter';
+      card.innerHTML = '<span class="eb">Kapitel 01 &middot; Profil</span><span class="t">&Uuml;ber uns &mdash; wer wir sind</span>';
+      v.appendChild(card);
+    }
+
+    v.appendChild(content);
+  });
+
+  /* ========================================================================
+     SCROLL HANDLERS PER VARIANT
+     ======================================================================== */
+  let activeScrollHandler = null;
+
+  function setupV3(variant) {
+    const hero = variant.querySelector('.hero');
+    function onScroll() {
+      const p = Math.max(0, Math.min(1, window.scrollY / window.innerHeight));
+      const scale = 1 - p * 0.12;
+      const opacity = 1 - p * 0.85;
+      const filterVal = 'blur(' + (p * 4) + 'px)';
+      hero.style.transform = 'scale(' + scale + ')';
+      hero.style.opacity = opacity;
+      hero.style.filter = filterVal;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => { window.removeEventListener('scroll', onScroll); hero.style.cssText = ''; };
+  }
+
+  function setupV4(variant) {
+    const curtain = variant.querySelector('.v4-curtain');
+    function onScroll() {
+      const p = Math.max(0, Math.min(1, window.scrollY / window.innerHeight));
+      curtain.style.transform = 'scaleY(' + p + ')';
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => { window.removeEventListener('scroll', onScroll); curtain.style.cssText = ''; };
+  }
+
+  function setupV5(variant) {
+    const bg = variant.querySelector('.hero-bg');
+    const ov = variant.querySelector('.hero-overlay');
+    const co = variant.querySelector('.hero-content');
+    function onScroll() {
+      const p = Math.max(0, Math.min(1, window.scrollY / window.innerHeight));
+      bg.style.filter = 'blur(' + (p * 14) + 'px)';
+      bg.style.transform = 'scale(' + (1 + p * 0.06) + ')';
+      ov.style.opacity = 1 + p * 0.4;
+      co.style.opacity = 1 - p * 1.1;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      bg.style.cssText = ''; ov.style.cssText = ''; co.style.cssText = '';
+    };
+  }
+
+  function setupV7(variant) {
+    const line = variant.querySelector('.sky-line-wrap');
+    const content = variant.querySelector('.content');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          line.classList.add('visible');
+          content.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    io.observe(content);
+    return () => {
+      io.disconnect();
+      line.classList.remove('visible');
+      content.classList.remove('visible');
+    };
+  }
+
+  function setupV8(variant) {
+    const logo = variant.querySelector('.hero-logo');
+    const hl = variant.querySelector('.hero-hairline');
+    const kicker = variant.querySelector('.hero-kicker');
+    const h1 = variant.querySelector('.hero-h1');
+    const cta = variant.querySelector('.hero-cta');
+    const bg = variant.querySelector('.hero-bg');
+    function onScroll() {
+      const p = Math.max(0, Math.min(1, window.scrollY / window.innerHeight));
+      const elements = [logo, hl, kicker, h1, cta];
+      elements.forEach((el, i) => {
+        if (!el) return;
+        const delay = i * 0.05; // stagger
+        const localP = Math.max(0, Math.min(1, (p - delay) / (1 - delay)));
+        el.style.opacity = 1 - localP * 1.1;
+        el.style.transform = 'scale(' + (1 - localP * 0.25) + ') translateY(' + (-localP * 40) + 'px)';
+      });
+      bg.style.opacity = 1 - p * 0.5;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      [logo, hl, kicker, h1, cta, bg].forEach(el => { if (el) el.style.cssText = ''; });
+    };
+  }
+
+  const VARIANT_SETUPS = {
+    v3: setupV3,
+    v4: setupV4,
+    v5: setupV5,
+    v7: setupV7,
+    v8: setupV8
+  };
+
+  function activate(name) {
+    // Teardown previous handler
+    if (activeScrollHandler) { activeScrollHandler(); activeScrollHandler = null; }
+
+    // Toggle visibility
+    document.querySelectorAll('.variant').forEach(v => {
+      v.classList.toggle('active', v.dataset.name === name);
+    });
+    document.querySelectorAll('.variant-switcher button').forEach(b => {
+      b.classList.toggle('active', b.dataset.v === name);
+    });
+    document.getElementById('variantLabel').textContent = LABELS[name] || name;
+
+    // Reset scroll + hash
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (location.hash.slice(1) !== name) history.replaceState(null, '', '#' + name);
+
+    // Setup new variant
+    const variant = document.querySelector(`.variant[data-name="${name}"]`);
+    const setup = VARIANT_SETUPS[name];
+    if (setup && variant) {
+      activeScrollHandler = setup(variant);
+    }
+  }
+
+  document.querySelectorAll('.variant-switcher button').forEach(b => {
+    b.addEventListener('click', () => activate(b.dataset.v));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target && ['INPUT','TEXTAREA'].includes(e.target.tagName)) return;
+    const btns = Array.from(document.querySelectorAll('.variant-switcher button'));
+    const cur = btns.findIndex(b => b.classList.contains('active'));
+    if (e.key === 'ArrowRight') { e.preventDefault(); activate(btns[(cur + 1) % btns.length].dataset.v); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); activate(btns[(cur - 1 + btns.length) % btns.length].dataset.v); }
+  });
+
+  window.addEventListener('hashchange', () => {
+    const h = location.hash.slice(1);
+    if (LABELS[h]) activate(h);
+  });
+
+  const initial = LABELS[location.hash.slice(1)] ? location.hash.slice(1) : 'v1';
+  activate(initial);
+})();
+</script>
+</body>
+</html>

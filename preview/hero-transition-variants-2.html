@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Arcaris — Hero-Übergang: 10 fließende Varianten</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/main.css">
+<style>
+/* ==========================================================================
+   BASE — explizite Scroll-Freigabe (main.css setzt height:100%, muss hier weg)
+   ========================================================================== */
+* { box-sizing: border-box; }
+html {
+  height: auto !important;
+  min-height: 100%;
+  margin: 0;
+  background: #fff;
+  overflow-x: hidden;
+  /* overflow-y default = visible → scroll bubblet zum window */
+}
+body {
+  height: auto !important;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  overflow-x: hidden;
+  font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+  color: #0d2950;
+  scroll-behavior: auto;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ==========================================================================
+   SWITCHER + LABEL
+   ========================================================================== */
+.variant-switcher {
+  position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 10000;
+  display: flex; gap: 4px; padding: 6px 8px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 24px rgba(13, 41, 80, 0.12), 0 1px 0 rgba(115, 157, 211, 0.18);
+}
+.variant-switcher button {
+  appearance: none; border: 0; background: transparent; color: #0d2950;
+  font: 12px/1 "roboto_slabregular", "Roboto Slab", sans-serif; letter-spacing: 2px;
+  padding: 9px 14px; border-radius: 999px; cursor: pointer; text-transform: uppercase;
+  opacity: 0.55; transition: background 0.2s, opacity 0.2s, color 0.2s;
+}
+.variant-switcher button:hover { opacity: 1; }
+.variant-switcher button.active { background: #0d2950; color: #fff; opacity: 1; }
+.variant-label {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10000;
+  padding: 10px 18px; border-radius: 999px; background: rgba(13, 41, 80, 0.85); color: #fff;
+  font: 11px/1 "roboto_slabregular", sans-serif; letter-spacing: 3px; text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+/* progress rail (shows scroll within hero zone) */
+.scroll-rail {
+  position: fixed; top: 0; right: 14px; bottom: 20px; z-index: 9999;
+  width: 1px; background: rgba(115, 157, 211, 0.25);
+  pointer-events: none;
+}
+.scroll-rail::after {
+  content: ""; position: absolute; top: 0; left: -1px; right: -1px;
+  height: var(--progress, 0%); background: #739dd3;
+  transition: height 0.15s ease-out;
+}
+
+/* ==========================================================================
+   VARIANT CONTAINER
+   ========================================================================== */
+.variant { display: none; }
+.variant.active {
+  display: block;
+  min-height: 200vh;  /* erzwingt Scroll-Platz für die Transition */
+}
+
+/* Document height per variant: hero-spacer (100vh) + content (auto) */
+/* Hero is position: fixed, covers viewport until scrolled past */
+
+.hero-layer {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 100vh;
+  z-index: 5;
+  pointer-events: none;
+  color: #fff;
+  overflow: hidden;
+  will-change: opacity, transform, filter;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: #0d2950 url('../img/hero-duesseldorf-poster.jpg') center/cover no-repeat;
+  z-index: 0;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(13, 41, 80, 0.55) 0%, rgba(13, 41, 80, 0.35) 50%, rgba(13, 41, 80, 0.65) 100%);
+  z-index: 1;
+}
+.hero-content {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 40px;
+  z-index: 3;
+}
+.hero-logo {
+  width: 180px; height: auto; display: block;
+  filter: brightness(0) invert(1);
+  margin: 0 0 32px;
+}
+.hero-hairline { width: 80px; height: 1px; background: rgba(255, 255, 255, 0.7); border: 0; margin: 0 0 24px; }
+.hero-kicker {
+  font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+  font-size: 12px; letter-spacing: 5px; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88); margin: 0 0 48px;
+}
+.hero-h1 {
+  font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+  font-weight: 300; font-size: 40px; line-height: 1.3;
+  max-width: 720px; margin: 0 0 48px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+.hero-cta {
+  font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+  font-size: 14px; letter-spacing: 4px; text-transform: uppercase;
+  color: #fff; padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* spacer reserves scroll space equal to one viewport so hero can "live" its transition */
+.hero-spacer { height: 100vh; }
+
+/* content flows below, natural white bg */
+.content {
+  position: relative;
+  background: #fff;
+  color: #0d2950;
+  padding: 140px 40px 200px;
+  min-height: 100vh;
+  z-index: 1;
+  will-change: opacity, transform;
+}
+.content-inner { max-width: 1240px; margin: 0 auto; }
+.content-kicker {
+  font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+  font-size: 12px; letter-spacing: 5px; text-transform: uppercase;
+  color: #739dd3; margin: 0 0 22px;
+}
+.content-hairline { width: 100px; height: 1px; background: #739dd3; opacity: 0.4; border: 0; margin: 0 0 36px; }
+.content-headline {
+  display: flex; align-items: center; gap: 36px; margin: 0 0 32px;
+}
+.content-headline h2 {
+  font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
+  font-weight: 300; font-style: italic;
+  font-size: 52px; line-height: 1.18; margin: 0;
+  color: #0d2950; letter-spacing: -0.3px;
+}
+.eagle {
+  flex: 0 0 auto; width: 79px; height: 58px;
+  background: url('../img/arcaris_adler_schwarz.png') center/contain no-repeat;
+  opacity: 0.92;
+  transform: translateY(-64px);
+}
+.content-lead {
+  font-size: 22px; line-height: 1.55; color: #0d2950; max-width: 66ch;
+  margin: 0 0 32px; font-weight: 300;
+}
+.content-body {
+  font-size: 17px; line-height: 1.85; color: #6e7f95; max-width: 66ch;
+  margin: 0 0 20px; font-weight: 300;
+}
+
+/* ==========================================================================
+   VARIANT-SPECIFIC LAYERS
+   ========================================================================== */
+
+/* V1 - Atmospheric Dissolve: overlay color morphs navy→white */
+[data-name="v1"] .v-overlay-morph {
+  position: absolute; inset: 0; z-index: 2;
+  background: rgba(13, 41, 80, 0);
+  pointer-events: none;
+}
+
+/* V3 - Focal Bloom: radial white light */
+[data-name="v3"] .v-bloom {
+  position: absolute; inset: 0; z-index: 2;
+  background: radial-gradient(circle at 50% 50%, #fff 0%, rgba(255,255,255,0.7) 30%, rgba(255,255,255,0) 60%);
+  opacity: 0;
+  transform: scale(0.2);
+  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+
+/* V4 - Rack Focus: white frost fade-in */
+[data-name="v4"] .v-frost {
+  position: absolute; inset: 0; z-index: 2;
+  background: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px);
+  pointer-events: none;
+}
+
+/* V5 - Frosted Glass: content behind fixed hero, hero is glass */
+[data-name="v5"] .hero-layer { z-index: 3; }
+[data-name="v5"] .hero-bg { background: transparent url('../img/hero-duesseldorf-poster.jpg') center/cover no-repeat; }
+[data-name="v5"] .hero-glass {
+  position: absolute; inset: 0; z-index: 4;
+  background: rgba(13, 41, 80, 0.3);
+  backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px);
+  pointer-events: none;
+}
+
+/* V6 - Depth Recession: hero content shrinks, no overlay needed, but hero-bg fades */
+
+/* V7 - Liquid Morph: SVG mask */
+[data-name="v7"] .v-liquid-mask {
+  position: absolute; inset: 0; z-index: 4;
+  pointer-events: none;
+}
+[data-name="v7"] .v-liquid-mask svg {
+  width: 100%; height: 100%; display: block;
+}
+
+/* V9 - Gradient Wash: animated linear gradient */
+[data-name="v9"] .v-wash {
+  position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(180deg, transparent 0%, #fff 100%);
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: bottom;
+}
+
+/* V11 — Sunrise-Wash (V9) + Text-Reveal (V8 style)
+   Performance: Wash ist 200% hoch, bottom-anchored, mit statischem Gradient
+   transparent (top) → weiß (ab 40%). JS animiert NUR translate3d. Kein
+   background-String-Rebuild pro Frame, kein Video-Filter. Pure GPU. */
+[data-name="v11"] .v-wash {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 200%;
+  z-index: 2;
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,0) 0%,
+    #fff 40%,
+    #fff 100%);
+  transform: translate3d(0, 100%, 0);
+  pointer-events: none;
+  will-change: transform;
+}
+[data-name="v11"] .hero-content { will-change: opacity; }
+
+/* V10 - Mist Rise: multiple fog puffs */
+[data-name="v10"] .v-mist {
+  position: absolute; inset: 0; z-index: 2;
+  pointer-events: none;
+}
+[data-name="v10"] .v-mist-puff {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%);
+  will-change: transform, opacity;
+}
+[data-name="v10"] .v-mist-puff.p1 { width: 80vw; height: 80vh; left: -20vw; bottom: -40vh; }
+[data-name="v10"] .v-mist-puff.p2 { width: 60vw; height: 60vh; right: -10vw; bottom: -30vh; }
+[data-name="v10"] .v-mist-puff.p3 { width: 50vw; height: 50vh; left: 25vw; bottom: -60vh; }
+[data-name="v10"] .v-mist-puff.p4 { width: 70vw; height: 70vh; left: 40vw; bottom: -20vh; }
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero-h1 { font-size: 28px; }
+  .content-headline h2 { font-size: 36px; }
+  .eagle { width: 55px; height: 40px; transform: translateY(-44px); }
+  .content { padding: 80px 24px 140px; }
+}
+</style>
+</head>
+<body>
+
+<!-- =========================================================================
+     SWITCHER + PROGRESS RAIL
+     ========================================================================= -->
+<nav class="variant-switcher" role="tablist" aria-label="Hero-Transition Varianten">
+  <button data-v="v1" class="active" role="tab">1</button>
+  <button data-v="v2" role="tab">2</button>
+  <button data-v="v3" role="tab">3</button>
+  <button data-v="v4" role="tab">4</button>
+  <button data-v="v5" role="tab">5</button>
+  <button data-v="v6" role="tab">6</button>
+  <button data-v="v7" role="tab">7</button>
+  <button data-v="v8" role="tab">8</button>
+  <button data-v="v9" role="tab">9</button>
+  <button data-v="v10" role="tab">10</button>
+  <button data-v="v11" role="tab">11</button>
+</nav>
+<div class="variant-label" id="variantLabel">1 · Atmospheric Dissolve</div>
+<div class="scroll-rail" id="scrollRail"></div>
+
+<main>
+
+<template id="heroTpl">
+  <div class="hero-layer">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <img class="hero-logo" src="../img/Arcaris_logo_blau_verlauf.png" alt="Arcaris">
+      <hr class="hero-hairline">
+      <p class="hero-kicker">D&uuml;sseldorf &middot; seit 2013</p>
+      <h1 class="hero-h1">Ihr Partner f&uuml;r Direkt&shy;beteiligungen im deutschen Mittelstand.</h1>
+      <a class="hero-cta" href="#">Herzlich willkommen</a>
+    </div>
+  </div>
+</template>
+
+<template id="contentTpl">
+  <div class="hero-spacer"></div>
+  <section class="content">
+    <div class="content-inner">
+      <p class="content-kicker">Profil</p>
+      <hr class="content-hairline">
+      <div class="content-headline">
+        <h2>&Uuml;ber uns</h2>
+        <div class="eagle" aria-hidden="true"></div>
+      </div>
+      <p class="content-lead">Die Arcaris Management GmbH ist eine von Unternehmern gegr&uuml;ndete unabh&auml;ngige Beteiligungsgesellschaft. &Uuml;ber sie investiert ein breites Netzwerk an Unternehmern und Unternehmerfamilien in den deutschen Mittelstand.</p>
+      <p class="content-body">Wir verstehen uns als Unternehmer und handeln auch entsprechend. Unsere Prinzipien im Rahmen des Beteiligungsprozesses und der weiteren Zusammenarbeit sind ma&szlig;geschneiderte L&ouml;sungen, partnerschaftlicher Umgang und die Grundwerte Integrit&auml;t und Fairness.</p>
+      <p class="content-body">Wir wollen nachhaltige Werte schaffen. Unser Entwicklungskonzept basiert auf einem langfristigen Horizont, strategischer und operativer Wertsteigerung und einer ausgepr&auml;gten sozialen Verantwortung gegen&uuml;ber den Menschen unserer Beteiligungen.</p>
+    </div>
+  </section>
+</template>
+
+<div class="variant active" data-name="v1"></div>
+<div class="variant" data-name="v2"></div>
+<div class="variant" data-name="v3"></div>
+<div class="variant" data-name="v4"></div>
+<div class="variant" data-name="v5"></div>
+<div class="variant" data-name="v6"></div>
+<div class="variant" data-name="v7"></div>
+<div class="variant" data-name="v8"></div>
+<div class="variant" data-name="v9"></div>
+<div class="variant" data-name="v10"></div>
+<div class="variant" data-name="v11"></div>
+
+</main>
+
+<script>
+/* =========================================================================
+   VARIANT DEFINITIONS
+   Each variant defines:
+   - label
+   - extras: extra DOM to insert inside .hero-layer
+   - onProgress(p, refs): called on scroll, p ∈ [0, 1]
+   ========================================================================= */
+
+const VARIANTS = {
+
+  /* V1 — Atmospheric Dissolve
+     Hero-Overlay schichtet sich von Navy-Tint zu Weiß um, Hero-Content fadet,
+     Video-BG hellt auf + desaturiert. Kein Rand — die Farbe selbst verwandelt sich. */
+  v1: {
+    label: '1 · Atmospheric Dissolve',
+    extras: (hero) => {
+      const morph = document.createElement('div');
+      morph.className = 'v-overlay-morph';
+      hero.querySelector('.hero-layer').insertBefore(morph, hero.querySelector('.hero-content'));
+      return { morph };
+    },
+    onProgress: (p, refs) => {
+      // eased p for more cinematic feel
+      const e = p * p * (3 - 2 * p);
+      // hero video becomes brighter, less saturated
+      refs.bg.style.filter = `brightness(${1 + e * 1.2}) saturate(${1 - e * 0.8})`;
+      refs.bg.style.opacity = 1 - e * 0.6;
+      // overlay darkens navy recedes, then white washes in
+      refs.morph.style.background = `linear-gradient(180deg,
+        rgba(13, 41, 80, ${0.55 - e * 0.55}) 0%,
+        rgba(115, 157, 211, ${e * 0.25}) 50%,
+        rgba(255, 255, 255, ${e}) 100%)`;
+      // hero content fades out
+      refs.content.style.opacity = 1 - e * 1.1;
+      refs.content.style.transform = `translateY(${-e * 20}px)`;
+    }
+  },
+
+  /* V2 — Overexposure Whiteout
+     Kamera-Belichtungs-Effekt: Video über-exponiert, entsättigt, verschwimmt leicht
+     und geht in reines Weiß über. Zero hard edges — das Bild selbst wird weiß. */
+  v2: {
+    label: '2 · Overexposure Whiteout',
+    extras: () => ({}),
+    onProgress: (p, refs) => {
+      const e = p * p * (3 - 2 * p);
+      refs.bg.style.filter = `brightness(${1 + e * 3}) saturate(${1 - e}) contrast(${1 - e * 0.5}) blur(${e * 6}px)`;
+      refs.overlay.style.opacity = Math.max(0, 1 - e * 2.5);
+      refs.content.style.opacity = 1 - e * 1.3;
+      refs.content.style.transform = `scale(${1 + e * 0.08})`;
+    }
+  },
+
+  /* V3 — Focal Bloom
+     Weißes Licht bloomt radial aus der Mitte des Hero (wo das Logo liegt)
+     nach außen, bis es den gesamten Viewport ausfüllt. */
+  v3: {
+    label: '3 · Focal Bloom',
+    extras: (hero) => {
+      const bloom = document.createElement('div');
+      bloom.className = 'v-bloom';
+      hero.querySelector('.hero-layer').appendChild(bloom);
+      return { bloom };
+    },
+    onProgress: (p, refs) => {
+      const e = p * p * (3 - 2 * p);
+      refs.bloom.style.opacity = e;
+      refs.bloom.style.transform = `scale(${0.2 + e * 3.8})`;
+      refs.content.style.opacity = 1 - e * 1.15;
+      refs.content.style.transform = `scale(${1 - e * 0.1})`;
+      refs.bg.style.filter = `brightness(${1 + e * 0.5})`;
+    }
+  },
+
+  /* V4 — Rack Focus Blur
+     Klassischer Kamera-Fokuswechsel: Hero blurt + dunkelt, gleichzeitig schiebt
+     sich weicher weißer Dunst davor. Wie eine Spiegelreflex, die den Fokus wechselt. */
+  v4: {
+    label: '4 · Rack Focus Blur',
+    extras: (hero) => {
+      const frost = document.createElement('div');
+      frost.className = 'v-frost';
+      hero.querySelector('.hero-layer').appendChild(frost);
+      return { frost };
+    },
+    onProgress: (p, refs) => {
+      const e = p * p * (3 - 2 * p);
+      refs.bg.style.filter = `blur(${e * 28}px) brightness(${1 - e * 0.3})`;
+      refs.bg.style.transform = `scale(${1 + e * 0.1})`;
+      refs.frost.style.background = `rgba(255, 255, 255, ${e})`;
+      refs.frost.style.backdropFilter = `blur(${e * 20}px)`;
+      refs.frost.style.webkitBackdropFilter = `blur(${e * 20}px)`;
+      refs.content.style.opacity = 1 - e * 1.2;
+    }
+  },
+
+  /* V5 — Frosted Glass Clear
+     Content ist IMMER da (liegt dahinter). Hero ist eine frostige Glasscheibe,
+     die beim Scrollen klarer wird und sich auflöst, Content erscheint scharf. */
+  v5: {
+    label: '5 · Frosted Glass Clear',
+    extras: (hero) => {
+      const glass = document.createElement('div');
+      glass.className = 'hero-glass';
+      hero.querySelector('.hero-layer').appendChild(glass);
+      return { glass };
+    },
+    onProgress: (p, refs) => {
+      const e = p * p * (3 - 2 * p);
+      // glass clears (blur reduces, opacity reduces)
+      const blur = 30 * (1 - e);
+      refs.glass.style.backdropFilter = `blur(${blur}px)`;
+      refs.glass.style.webkitBackdropFilter = `blur(${blur}px)`;
+      refs.glass.style.background = `rgba(13, 41, 80, ${0.3 * (1 - e)})`;
+      // hero content moves away, bg darkens out
+      refs.content.style.opacity = 1 - e * 1.1;
+      refs.bg.style.opacity = 1 - e;
+      refs.overlay.style.opacity = 1 - e;
+    }
+  },
+
+  /* V6 — Depth Recession
+     Hero wird "weggezogen" in die Tiefe (scale + translateY + blur),
+     Content rückt ins Bild (scale-up + fade-in). Cinematic depth shift. */
+  v6: {
+    label: '6 · Depth Recession',
+    extras: () => ({}),
+    onProgress: (p, refs) => {
+      const e = p * p * (3 - 2 * p);
+      refs.content.style.transform = `scale(${1 - e * 0.2}) translateY(${-e * 40}px)`;
+      refs.content.style.opacity = 1 - e * 1.2;
+      refs.content.style.filter = `blur(${e * 8}px)`;
+      refs.bg.style.transform = `scale(${1 - e * 0.08}) translateY(${-e * 20}px)`;
+      refs.bg.style.opacity = 1 - e * 0.95;
+      refs.overlay.style.opacity = 1 - e * 0.8;
+    }
+  },
+
+  /* V7 — Liquid Morph Mask
+     Eine SVG-Maske mit feTurbulence-Verzerrung "verflüssigt" den Hero-Rand.
+     Der weiße Bereich wächst organisch von unten nach oben, mit wabernden Kanten. */
+  v7: {
+    label: '7 · Liquid Morph Mask',
+    extras: (hero) => {
+      const mask = document.createElement('div');
+      mask.className = 'v-liquid-mask';
+      mask.innerHTML = `
+        <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="liquidTurb">
+              <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed="3"/>
+              <feDisplacementMap in="SourceGraphic" scale="80"/>
+            </filter>
+          </defs>
+          <rect class="liquidRect" x="-100" y="1000" width="1200" height="1200" fill="#fff" filter="url(#liquidTurb)"/>
+        </svg>`;
+      hero.querySelector('.hero-layer').appendChild(mask);
+      return { liquidRect: mask.querySelector('.liquidRect') };
+    },
+    onProgress: (p, refs) => {
+      const e = p * p * (3 - 2 * p);
+      // rect moves up from below viewport, eventually covering all
+      refs.liquidRect.setAttribute('y', String(1000 - e * 1400));
+      refs.content.style.opacity = 1 - e * 1.1;
+    }
+  },
+
+  /* V8 — Cross-dissolve Scale
+     Minimalistischer Premium-Crossfade: Hero scale-down + fade-out,
+     Content scale-down-to-natural + fade-in. Beides simultan, ohne Kante. */
+  v8: {
+    label: '8 · Cross-Dissolve Scale',
+    extras: () => ({}),
+    onProgress: (p, refs, variant) => {
+      const e = p * p * (3 - 2 * p);
+      refs.layer.style.opacity = 1 - e;
+      refs.layer.style.transform = `scale(${1 - e * 0.05})`;
+      const contentSection = variant.querySelector('.content');
+      if (contentSection) {
+        contentSection.style.opacity = Math.min(1, e * 1.2);
+        contentSection.style.transform = `scale(${1.04 - e * 0.04})`;
+      }
+    }
+  },
+
+  /* V9 — Gradient Wash
+     Ein vertikaler Weiß-Gradient (unten weiß, oben transparent) wächst nach oben,
+     bis er den ganzen Hero einhüllt. Wie Nebel, der langsam aufsteigt. */
+  v9: {
+    label: '9 · Gradient Wash (Sunrise)',
+    extras: (hero) => {
+      const wash = document.createElement('div');
+      wash.className = 'v-wash';
+      hero.querySelector('.hero-layer').insertBefore(wash, hero.querySelector('.hero-content'));
+      return { wash };
+    },
+    onProgress: (p, refs) => {
+      const e = p * p * (3 - 2 * p);
+      // gradient stop moves up from bottom: bottom=white, top progressively fills
+      const stopTop = 100 - e * 110;
+      refs.wash.style.background = `linear-gradient(180deg,
+        rgba(255,255,255,0) ${Math.max(0, stopTop - 40)}%,
+        rgba(255,255,255,${e}) ${Math.max(0, stopTop)}%,
+        #fff 100%)`;
+      refs.wash.style.opacity = 1;
+      refs.content.style.opacity = 1 - e * 1.15;
+      refs.bg.style.filter = `brightness(${1 + e * 0.5}) saturate(${1 - e * 0.3})`;
+    }
+  },
+
+  /* V11 — Sunrise-Wash + Text-Reveal (Hybrid V9 + V8)
+     Scroll-Gefühl aus V9: weißer Gradient wächst scroll-gebunden nach oben,
+     Video hellt auf + desaturiert (kein Scale). Text-Einstieg aus V8:
+     Hero-Layer fadet komplett aus (opacity 1 → 0), Content-Sektion fadet ein
+     und skaliert 1.04 → 1.00 synchron. So wird der Content tatsächlich
+     sichtbar (weil der fixe Hero-Layer sich auflöst). */
+  v11: {
+    label: '11 · Hybrid (V9 Wash + V8 Text-Reveal)',
+    extras: (hero) => {
+      const wash = document.createElement('div');
+      wash.className = 'v-wash';
+      hero.querySelector('.hero-layer').insertBefore(wash, hero.querySelector('.hero-content'));
+      return { wash };
+    },
+    onProgress: (p, refs, variant) => {
+      // Ease-out cubic: bei 5% Scroll schon 14% Effekt, bei 10% schon 27%.
+      // So sieht der User sofort was, auch bei kleinen Wheel-Ticks.
+      const e = 1 - Math.pow(1 - p, 3);
+
+      // V9-Feel: Wash rises aus unterem Bildrand. Pure translate3d — kein
+      // background-String-Rebuild mehr, kein Style-Recalc, nur Compositor.
+      refs.wash.style.transform = `translate3d(0, ${((1 - e) * 100).toFixed(2)}%, 0)`;
+
+      // Hero-Inhalt (Logo/Text/CTA) fadet
+      refs.content.style.opacity = (1 - e * 1.15).toFixed(3);
+
+      // V8-Teil: Gesamter Hero-Layer fadet aus → gibt Content dahinter frei.
+      refs.layer.style.opacity = (1 - e).toFixed(3);
+
+      // V8-Teil: Content-Sektion fadet ein + scale 1.04 → 1.00
+      const contentSection = variant.querySelector('.content');
+      if (contentSection) {
+        contentSection.style.opacity = Math.min(1, e * 1.2).toFixed(3);
+        contentSection.style.transform = `scale(${(1.04 - e * 0.04).toFixed(4)})`;
+      }
+    }
+  },
+
+  /* V10 — Mist Rise
+     Mehrere weiche, weiße Nebelschwaden (radial gradients) steigen aus dem unteren
+     Bildrand auf, wachsen und verschmelzen zu einer weißen Fläche. */
+  v10: {
+    label: '10 · Mist Rise',
+    extras: (hero) => {
+      const mist = document.createElement('div');
+      mist.className = 'v-mist';
+      mist.innerHTML = `
+        <div class="v-mist-puff p1"></div>
+        <div class="v-mist-puff p2"></div>
+        <div class="v-mist-puff p3"></div>
+        <div class="v-mist-puff p4"></div>`;
+      hero.querySelector('.hero-layer').insertBefore(mist, hero.querySelector('.hero-content'));
+      return { puffs: Array.from(mist.querySelectorAll('.v-mist-puff')) };
+    },
+    onProgress: (p, refs) => {
+      const e = p * p * (3 - 2 * p);
+      refs.puffs.forEach((puff, i) => {
+        const delay = i * 0.07;
+        const localE = Math.max(0, Math.min(1, (e - delay) / (1 - delay)));
+        puff.style.transform = `translateY(${-localE * 120}vh) scale(${0.6 + localE * 1.2})`;
+        puff.style.opacity = localE * 1.1;
+      });
+      refs.content.style.opacity = 1 - e * 1.1;
+      refs.bg.style.filter = `brightness(${1 + e * 0.5})`;
+    }
+  }
+};
+
+/* =========================================================================
+   RENDER + SWITCHER + SCROLL DISPATCH
+   ========================================================================= */
+(function () {
+  const heroTpl = document.getElementById('heroTpl');
+  const contentTpl = document.getElementById('contentTpl');
+
+  // build each variant's DOM once
+  const variantRefs = {};
+  document.querySelectorAll('.variant').forEach(v => {
+    const name = v.dataset.name;
+    const cfg = VARIANTS[name];
+    if (!cfg) return;
+    const hero = heroTpl.content.cloneNode(true);
+    const host = document.createElement('div');
+    host.appendChild(hero);
+    // run extras
+    const extra = cfg.extras(host) || {};
+    // append hero-layer + spacer + content
+    while (host.firstChild) v.appendChild(host.firstChild);
+    v.appendChild(contentTpl.content.cloneNode(true));
+    variantRefs[name] = Object.assign({
+      layer: v.querySelector('.hero-layer'),
+      bg: v.querySelector('.hero-bg'),
+      overlay: v.querySelector('.hero-overlay'),
+      content: v.querySelector('.hero-content'),
+      variant: v
+    }, extra);
+  });
+
+  let currentVariant = null;
+
+  function resetStyles(name) {
+    const r = variantRefs[name];
+    if (!r) return;
+    [r.layer, r.bg, r.overlay, r.content].forEach(el => { if (el) el.style.cssText = ''; });
+    const extras = ['morph', 'bloom', 'frost', 'glass', 'liquidRect', 'wash'];
+    extras.forEach(k => { if (r[k]) {
+      if (r[k].tagName === 'rect') { r[k].setAttribute('y', '1000'); }
+      else r[k].style.cssText = '';
+    } });
+    if (r.puffs) r.puffs.forEach(p => p.style.cssText = '');
+    const contentSection = r.variant.querySelector('.content');
+    if (contentSection) contentSection.style.cssText = '';
+  }
+
+  /* Zweigleisige Update-Pipeline:
+     1) Scroll-Event — triggert SOFORT bei jedem User-Input (Wheel, Touch,
+        Tastatur, Scrollbar-Drag). Kein Warten auf nächsten rAF-Frame.
+     2) rAF-Loop — läuft permanent 60 fps, fängt alles ab, was vom Scroll-
+        Event vielleicht nicht getriggert wurde (Tab-Wechsel, Throttling, etc.).
+     Beide rufen dieselbe doUpdate-Funktion. Browser skippt identische Styles. */
+  function doUpdate() {
+    const cfg = VARIANTS[currentVariant];
+    const refs = variantRefs[currentVariant];
+    if (!cfg || !refs) return;
+    const vh = window.innerHeight;
+    const p = Math.max(0, Math.min(1, window.scrollY / vh));
+    cfg.onProgress(p, refs, refs.variant);
+    document.getElementById('scrollRail').style.setProperty('--progress', (p * 100) + '%');
+  }
+
+  function frameTick() {
+    doUpdate();
+    requestAnimationFrame(frameTick);
+  }
+
+  function onScroll() { doUpdate(); }
+
+  function activate(name) {
+    if (!VARIANTS[name]) return;
+    if (currentVariant) resetStyles(currentVariant);
+    currentVariant = name;
+
+    document.querySelectorAll('.variant').forEach(v => {
+      v.classList.toggle('active', v.dataset.name === name);
+    });
+    document.querySelectorAll('.variant-switcher button').forEach(b => {
+      b.classList.toggle('active', b.dataset.v === name);
+    });
+    document.getElementById('variantLabel').textContent = VARIANTS[name].label;
+
+    window.scrollTo(0, 0);
+    if (location.hash.slice(1) !== name) history.replaceState(null, '', '#' + name);
+    doUpdate(); // sofort initialen State anwenden, nicht auf nächsten Frame warten
+  }
+
+  // Scroll event: sofortige Reaktion bei User-Input
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('wheel', onScroll, { passive: true });
+  // rAF-Loop: kontinuierliche Sicherung
+  requestAnimationFrame(frameTick);
+  // expose for debugging/external triggers
+  window.__arcTransition = { activate, onScroll, VARIANTS };
+
+  document.querySelectorAll('.variant-switcher button').forEach(b => {
+    b.addEventListener('click', () => activate(b.dataset.v));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target && ['INPUT','TEXTAREA'].includes(e.target.tagName)) return;
+    const btns = Array.from(document.querySelectorAll('.variant-switcher button'));
+    const cur = btns.findIndex(b => b.classList.contains('active'));
+    if (e.key === 'ArrowRight') { e.preventDefault(); activate(btns[(cur + 1) % btns.length].dataset.v); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); activate(btns[(cur - 1 + btns.length) % btns.length].dataset.v); }
+  });
+
+  window.addEventListener('hashchange', () => {
+    const h = location.hash.slice(1);
+    if (VARIANTS[h]) activate(h);
+  });
+
+  const initial = VARIANTS[location.hash.slice(1)] ? location.hash.slice(1) : 'v1';
+  activate(initial);
+})();
+</script>
+</body>
+</html>
