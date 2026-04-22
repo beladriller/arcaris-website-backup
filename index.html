@@ -715,15 +715,19 @@ html { scrollbar-gutter: stable; }
         <script src="js/respond.src"></script>
         <script src="js/jquery.backstretch.min.js"></script>
         <script src="js/main.js"></script>
-		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?forceLang=de&customize=1&tracking=1&thirdparty=1&always=1&refreshPage=1"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?forceLang=de&customize=1&tracking=1&thirdparty=1&refreshPage=1"></script>
 
 		<script>
-			/* Click-to-Load Google Maps: ersetzt den Platzhalter erst nach
-			   expliziter User-Zustimmung per Klick mit dem echten iframe. */
+			/* Click-to-Load Google Maps: ersetzt den Platzhalter durch den echten iframe
+			   automatisch nach erteiltem Cookie-Konsent, sonst erst auf Klick. */
 			(function () {
 				var btn = document.getElementById('mapLoadBtn');
 				if (!btn) return;
-				btn.addEventListener('click', function () {
+				function hasCookieConsent() {
+					var m = document.cookie.match(/(?:^|;\s*)cookiebar=([^;]*)/);
+					return !!(m && m[1] && m[1] !== 'CookieDisallowed');
+				}
+				function loadMap() {
 					var src = btn.getAttribute('data-map-src');
 					if (!src) return;
 					var iframe = document.createElement('iframe');
@@ -734,7 +738,9 @@ html { scrollbar-gutter: stable; }
 					iframe.setAttribute('title', 'Google Maps — Arcaris Management GmbH');
 					iframe.style.border = '0';
 					btn.replaceWith(iframe);
-				}, { once: true });
+				}
+				if (hasCookieConsent()) loadMap();
+				else btn.addEventListener('click', loadMap, { once: true });
 			})();
 		</script>
 

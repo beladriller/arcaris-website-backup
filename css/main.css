@@ -3496,3 +3496,83 @@ body.is-scrolled .main-nav__desktop a:focus {
 	.g-headline-row { gap: 20px; }
 	.g-eagle { width: 55px; height: 40px; transform: translateY(-44px); }
 }
+
+/* ==========================================================================
+   COOKIE-BAR (cookie-bar-latest.min.js, jsdelivr) — Brand-Override
+   Die Library rendert via IDs, nicht Klassen. !important notwendig, da die
+   Library selbst inline-styles + CDN-CSS setzt.
+   ========================================================================== */
+#cookie-bar {
+	background: rgba(13, 41, 80, 0.96) !important;
+	color: #fff !important;
+	font-family: "roboto_slablight", "Roboto Slab", Georgia, serif !important;
+	font-size: 14px !important;
+	line-height: 1.5 !important;
+	padding: 18px 24px !important;
+	backdrop-filter: blur(8px);
+}
+#cookie-bar p {
+	color: #fff !important;
+	font-size: 14px !important;
+	line-height: 1.6 !important;
+	margin: 0 12px 0 0 !important;
+	max-width: 70ch;
+}
+/* Inline-Links im Text (Details, Datenschutzrichtlinie) — dezent Sky, unterstrichen */
+#cookie-bar-prompt-button,
+#cookie-bar-main-privacy-link {
+	color: #dadee4 !important;
+	text-decoration: underline !important;
+	text-decoration-thickness: 1px !important;
+	text-underline-offset: 3px !important;
+	background: transparent !important;
+	padding: 0 !important;
+	border: 0 !important;
+	font-weight: normal !important;
+	font-family: inherit !important;
+	font-size: inherit !important;
+	margin: 0 6px !important;
+	cursor: pointer;
+}
+#cookie-bar-prompt-button:hover,
+#cookie-bar-main-privacy-link:hover {
+	color: #fff !important;
+}
+/* Aktions-Buttons (Zustimmen, Anpassen, Verbieten) — einheitlich Navy mit weißer Schrift */
+#cookie-bar-button,
+#cookie-bar-button-customize,
+#cookie-bar-button-no {
+	background: #0d2950 !important;
+	color: #fff !important;
+	border: 1px solid #fff !important;
+	border-radius: 2px !important;
+	padding: 10px 22px !important;
+	margin: 0 0 0 8px !important;
+	font-family: "roboto_slabregular", "Roboto Slab", sans-serif !important;
+	font-size: 12px !important;
+	letter-spacing: 2px !important;
+	text-transform: uppercase !important;
+	text-decoration: none !important;
+	display: inline-block !important;
+	cursor: pointer !important;
+	transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease !important;
+	box-shadow: none !important;
+}
+#cookie-bar-button:hover,
+#cookie-bar-button-customize:hover,
+#cookie-bar-button-no:hover {
+	background: #fff !important;
+	color: #0d2950 !important;
+	border-color: #fff !important;
+}
+@media (max-width: 700px) {
+	#cookie-bar { padding: 14px 18px !important; font-size: 13px !important; }
+	#cookie-bar p { margin-bottom: 10px !important; }
+	#cookie-bar-button,
+	#cookie-bar-button-customize,
+	#cookie-bar-button-no {
+		padding: 8px 16px !important;
+		font-size: 11px !important;
+		letter-spacing: 1.5px !important;
+	}
+}
