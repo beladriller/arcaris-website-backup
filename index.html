@@ -8,6 +8,23 @@
         <title>Arcaris - Ihr Partner f&uuml;r Direktbeteiligungen im deutschen Mittelstand</title>
         <meta name="description" content="Ihr Partner für Direktbeteiligung im deutschen Mittelstand.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="referrer" content="strict-origin-when-cross-origin">
+
+        <!-- Open Graph (LinkedIn, Facebook, WhatsApp, Slack Preview) -->
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Arcaris Management GmbH">
+        <meta property="og:title" content="Arcaris — Ihr Partner für Direktbeteiligungen im deutschen Mittelstand">
+        <meta property="og:description" content="Wir erwerben und begleiten partnerschaftlich mittelständische Unternehmen aus dem deutschen Mittelstand.">
+        <meta property="og:url" content="https://www.arcaris.de/">
+        <meta property="og:image" content="https://www.arcaris.de/img/hero-duesseldorf-poster.jpg">
+        <meta property="og:image:alt" content="Düsseldorfer Skyline mit Medienhafen bei Abenddämmerung">
+        <meta property="og:locale" content="de_DE">
+
+        <!-- Twitter / X Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Arcaris — Direktbeteiligungen im deutschen Mittelstand">
+        <meta name="twitter:description" content="Wir erwerben und begleiten partnerschaftlich mittelständische Unternehmen aus dem deutschen Mittelstand.">
+        <meta name="twitter:image" content="https://www.arcaris.de/img/hero-duesseldorf-poster.jpg">
 
         <link rel="preload" href="css/robotoslab-regular-webfont.woff2" as="font" type="font/woff2" crossorigin>
         <link rel="preload" href="css/robotoslab-light-webfont.woff2" as="font" type="font/woff2" crossorigin>
@@ -123,7 +140,7 @@ html { scrollbar-gutter: stable; }
 }
         </style>
 
-        <link rel="stylesheet" href="css/main.css?v=7" type="text/css">
+        <link rel="stylesheet" href="css/main.css?v=8" type="text/css">
         <link rel="stylesheet" href="css/animate.min.css" type="text/css" />
         <link rel="stylesheet" href="css/idangerous.swiper.css" type="text/css" />
 
@@ -141,10 +158,9 @@ html { scrollbar-gutter: stable; }
         <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
         <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
         <link rel="apple-touch-icon" sizes="180x180" href="img/favicon-180.png">
-
-        <script src="js/vendor/modernizr-2.7.0.min.js"></script>
     </head>
     <body id="top">
+<a class="skip-link" href="#ueber_uns">Direkt zum Inhalt</a>
 <div id="preloader">
 	<div class="preloader-stage" aria-hidden="true">
 		<div class="preloader-logo-wrap">
@@ -246,24 +262,6 @@ html { scrollbar-gutter: stable; }
 		<h1>Ihr Partner f&uuml;r Direkt&shy;beteiligungen im deutschen Mittelstand.</h1>
 		<a class="start__cta" href="#ueber_uns">Herzlich willkommen</a>
 	</div>
-
-	<!--
-	        <section id="start" data-speed="0" data-type="background">
-	            <div class="start__content">
-	                <h1>Ihr Partner für Direktbeteiligung im deutschen Mittelstand.</h1>
-	                <h2 class="herzlich_willkommen">
-		                <a href="#ueber_uns">
-			                <div class="svg-wrapper">
-								<svg height="60" width="200" xmlns="http://www.w3.org/2000/svg">
-									<rect class="shape" height="60" width="200" />
-									<div class="text">Herzlich Willkommen</div>
-								</svg>
-							</div>
-						</a>
-						</h2>
-	            </div>
-	        </section>
-	-->
 
     <section id="ueber_uns" class="g-section">
         <div class="g-inner">
@@ -608,14 +606,6 @@ html { scrollbar-gutter: stable; }
             </div>
         </section>
 
-<!--
-        <section id="footer">
-            <div class="footer__content">
-                <h2><a class="link-impressum">Impressum</a></h2>
-            </div>
-        </section>
--->
-
         <section id="impressum" class="g-section">
             <div class="g-inner">
                 <div class="g-kicker">Rechtliches</div>
@@ -722,16 +712,8 @@ html { scrollbar-gutter: stable; }
 
 
 
-<!--
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
--->
         <script src="js/jquery-2.1.1.min.js"></script>
-        <script src="js/jquery.mobile-1.3.2.min.js"></script>
-        <script src="js/idangerous_df.swiper.js"></script>
-        <script src="js/respond.src"></script>
-        <script src="js/jquery.backstretch.min.js"></script>
-        <script src="js/main.js"></script>
+        <script src="js/main.js?v=2"></script>
 
 		<!-- ================================================================
 		     Cookie-Banner (eigener, DSGVO-konformer Consent-Manager)
@@ -751,7 +733,32 @@ html { scrollbar-gutter: stable; }
 
 		<script src="js/arcaris-consent.js?v=5"></script>
 
+		<!-- Structured data for search engines (Schema.org Organization) -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "Organization",
+			"name": "Arcaris Management GmbH",
+			"url": "https://www.arcaris.de/",
+			"logo": "https://www.arcaris.de/img/Arcaris_logo_blau_verlauf.png",
+			"foundingDate": "2013",
+			"description": "Unabhängige Beteiligungsgesellschaft mit Fokus auf Direktbeteiligungen im deutschen Mittelstand.",
+			"address": {
+				"@type": "PostalAddress",
+				"streetAddress": "Cantadorstraße 3",
+				"postalCode": "40211",
+				"addressLocality": "Düsseldorf",
+				"addressCountry": "DE"
+			},
+			"contactPoint": {
+				"@type": "ContactPoint",
+				"telephone": "+49-211-53818592",
+				"email": "info@arcaris.de",
+				"contactType": "customer service",
+				"availableLanguage": ["de"]
+			}
+		}
+		</script>
+
     </body>
 </html>
-
-<!-- Localized -->

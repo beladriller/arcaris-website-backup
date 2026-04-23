@@ -41,6 +41,9 @@ function Send-FileRange {
         $length = $end - $start + 1
         $Res.ContentType = $ContentType
         $Res.Headers.Add('Accept-Ranges', 'bytes')
+        $Res.Headers.Add('X-Content-Type-Options', 'nosniff')
+        $Res.Headers.Add('X-Frame-Options', 'DENY')
+        $Res.Headers.Add('Referrer-Policy', 'strict-origin-when-cross-origin')
         if ($isPartial) {
             $Res.StatusCode = 206
             $Res.Headers.Add('Content-Range', "bytes $start-$end/$total")
