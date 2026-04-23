@@ -3726,3 +3726,21 @@ section.g-section--legal a:focus {
 @media (max-width: 700px) {
 	section.g-section--legal { padding: 28px 24px !important; }
 }
+
+/* ==========================================================================
+   LARGE-DISPLAY-SCALING — proportionales Zoomen aller Content-<section>s
+   auf großen Bildschirmen. Nicht nur breiter, sondern auch größer: Text,
+   Bilder, Padding, Abstände — alles gemeinsam. Hero (.hero-video +
+   .start__content) ist KEINE <section> und wird deshalb nicht skaliert.
+   Header/Nav und Cookie-Banner liegen ebenfalls außerhalb von <section>,
+   bleiben also auf Viewport-Maßstab.
+   ========================================================================== */
+@media (min-width: 1400px) {
+	section, header { zoom: 1.12; }
+}
+@media (min-width: 1700px) {
+	section, header { zoom: 1.22; }
+}
+@media (min-width: 2100px) {
+	section, header { zoom: 1.35; }
+}
