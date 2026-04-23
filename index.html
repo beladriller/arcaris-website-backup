@@ -715,6 +715,14 @@ html { scrollbar-gutter: stable; }
         <script src="js/respond.src"></script>
         <script src="js/jquery.backstretch.min.js"></script>
         <script src="js/main.js"></script>
+		<script>
+			/* Dummy-Cookie, damit cookie-bar-Library in Inkognito-Fenstern den
+			   Banner zeigt: Sie rendert nur, wenn bereits irgendein Cookie oder
+			   localStorage-Eintrag existiert. */
+			if (!/(?:^|;\s*)_cb_init=/.test(document.cookie)) {
+				document.cookie = '_cb_init=1;path=/;samesite=lax';
+			}
+		</script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?forceLang=de&customize=1&tracking=1&thirdparty=1&refreshPage=1"></script>
 
 		<script>
