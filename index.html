@@ -714,7 +714,7 @@ html { scrollbar-gutter: stable; }
                     <p class="g-body g-cookie-stand">Stand: April 2026</p>
                 </div>
             </div>
-            <p class="g-legal-note"><a href="#" onclick="if(window.ArcarisConsent){window.ArcarisConsent.revoke();}return false;">Cookie-Einstellungen &auml;ndern</a></p>
+            <p class="g-legal-note"><a href="#" data-role="none" onclick="if(window.ArcarisConsent){window.ArcarisConsent.revoke();}return false;">Cookie-Einstellungen &auml;ndern</a></p>
         </section>
 
 
@@ -739,17 +739,17 @@ html { scrollbar-gutter: stable; }
 		     API:     window.ArcarisConsent.{ current(), revoke() }
 		     Event:   'arcaris:consent' (detail = consent object oder null bei revoke)
 		     ================================================================ -->
-		<div id="arc-cookie" class="arc-cookie" role="region" aria-label="Cookie-Hinweis" hidden>
+		<div id="arc-cookie" class="arc-cookie" role="region" aria-label="Cookie-Hinweis" data-enhance="false" hidden>
 			<div class="arc-cookie__inner">
-				<p class="arc-cookie__text">Diese Website nutzt nur technisch notwendige Speicherung &ndash; kein Tracking, keine Analyse. Google Maps wird erst nach Ihrer Einwilligung geladen. <a href="#datenschutz-cookies">Details</a> &middot; <a href="#datenschutz">Datenschutz</a> &middot; <a href="#impressum">Impressum</a></p>
+				<p class="arc-cookie__text">Diese Website nutzt nur technisch notwendige Speicherung &ndash; kein Tracking, keine Analyse. Google Maps wird erst nach Ihrer Einwilligung geladen. <a href="#datenschutz-cookies" data-role="none">Details</a> &middot; <a href="#datenschutz" data-role="none">Datenschutz</a> &middot; <a href="#impressum" data-role="none">Impressum</a></p>
 				<div class="arc-cookie__actions">
-					<button type="button" class="arc-cookie__btn" data-act="reject">Ablehnen</button>
-					<button type="button" class="arc-cookie__btn arc-cookie__btn--primary" data-act="accept">Zustimmen</button>
+					<button type="button" class="arc-cookie__btn" data-act="reject" data-role="none">Ablehnen</button>
+					<button type="button" class="arc-cookie__btn arc-cookie__btn--primary" data-act="accept" data-role="none">Zustimmen</button>
 				</div>
 			</div>
 		</div>
 
-		<script src="js/arcaris-consent.js?v=4"></script>
+		<script src="js/arcaris-consent.js?v=5"></script>
 
     </body>
 </html>

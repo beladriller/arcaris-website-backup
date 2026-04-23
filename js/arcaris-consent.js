@@ -90,7 +90,7 @@
 		var img = c.getAttribute('data-map-placeholder-src') || '';
 		var alt = c.getAttribute('data-map-placeholder-alt') || 'Google Maps';
 		c.innerHTML =
-			'<div class="g-map__placeholder" data-arc-map-placeholder role="button" tabindex="0" aria-label="Google Maps laden">'
+			'<div class="g-map__placeholder" data-arc-map-placeholder data-role="none" role="button" tabindex="0" aria-label="Google Maps laden">'
 			+   (img ? '<img src="' + escapeAttr(img) + '" alt="' + escapeAttr(alt) + '" class="g-map__image" loading="lazy">' : '')
 			+   '<span class="g-map__cta">'
 			+     '<span class="g-map__cta-title">Karte anzeigen</span>'
