@@ -3498,81 +3498,231 @@ body.is-scrolled .main-nav__desktop a:focus {
 }
 
 /* ==========================================================================
-   COOKIE-BAR (cookie-bar-latest.min.js, jsdelivr) — Brand-Override
-   Die Library rendert via IDs, nicht Klassen. !important notwendig, da die
-   Library selbst inline-styles + CDN-CSS setzt.
+   COOKIE-BANNER (eigener Consent-Manager, binärer Consent für Google Maps)
+   Flache Bottom-Bar, volle Breite, Navy-Grund, ein Satz + zwei Buttons.
    ========================================================================== */
-#cookie-bar {
-	background: rgba(13, 41, 80, 0.96) !important;
-	color: #fff !important;
-	font-family: "roboto_slablight", "Roboto Slab", Georgia, serif !important;
-	font-size: 14px !important;
-	line-height: 1.5 !important;
-	padding: 18px 24px !important;
-	backdrop-filter: blur(8px);
+.arc-cookie {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10000;
+	background: rgba(13, 41, 80, 0.97);
+	color: #fff;
+	box-shadow: 0 -4px 20px rgba(13, 41, 80, 0.18);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	font-family: "roboto_slablight", "Roboto Slab", Georgia, serif;
 }
-#cookie-bar p {
-	color: #fff !important;
-	font-size: 14px !important;
-	line-height: 1.6 !important;
-	margin: 0 12px 0 0 !important;
-	max-width: 70ch;
+.arc-cookie[hidden] { display: none; }
+
+.arc-cookie__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 14px 32px;
+	padding: 14px 32px;
+	max-width: 1400px;
+	margin: 0 auto;
 }
-/* Inline-Links im Text (Details, Datenschutzrichtlinie) — dezent Sky, unterstrichen */
-#cookie-bar-prompt-button,
-#cookie-bar-main-privacy-link {
-	color: #dadee4 !important;
-	text-decoration: underline !important;
-	text-decoration-thickness: 1px !important;
-	text-underline-offset: 3px !important;
-	background: transparent !important;
-	padding: 0 !important;
-	border: 0 !important;
-	font-weight: normal !important;
-	font-family: inherit !important;
-	font-size: inherit !important;
-	margin: 0 6px !important;
+
+.arc-cookie__text {
+	font-size: 13px;
+	line-height: 1.5;
+	color: #fff;
+	margin: 0;
+	flex: 1 1 320px;
+	font-weight: 300;
+}
+.arc-cookie__text a {
+	color: #dadee4;
+	border-bottom: 1px solid rgba(218, 222, 228, 0.4);
+	text-decoration: none;
+	transition: color 0.2s, border-color 0.2s;
+}
+.arc-cookie__text a:hover,
+.arc-cookie__text a:focus {
+	color: #fff;
+	border-bottom-color: #fff;
+}
+
+.arc-cookie__actions {
+	display: flex;
+	gap: 8px;
+	flex-shrink: 0;
+}
+
+.arc-cookie__btn {
+	font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+	font-size: 11px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	padding: 9px 18px;
+	border-radius: 2px;
 	cursor: pointer;
+	background: transparent;
+	color: #fff;
+	border: 1px solid rgba(255, 255, 255, 0.55);
+	transition: background 0.2s, color 0.2s, border-color 0.2s;
+	min-height: 36px;
+	white-space: nowrap;
 }
-#cookie-bar-prompt-button:hover,
-#cookie-bar-main-privacy-link:hover {
-	color: #fff !important;
+.arc-cookie__btn:hover,
+.arc-cookie__btn:focus {
+	background: rgba(255, 255, 255, 0.12);
+	border-color: #fff;
+	outline: none;
 }
-/* Aktions-Buttons (Zustimmen, Anpassen, Verbieten) — einheitlich Navy mit weißer Schrift */
-#cookie-bar-button,
-#cookie-bar-button-customize,
-#cookie-bar-button-no {
-	background: #0d2950 !important;
-	color: #fff !important;
-	border: 1px solid #fff !important;
-	border-radius: 2px !important;
-	padding: 10px 22px !important;
-	margin: 0 0 0 8px !important;
-	font-family: "roboto_slabregular", "Roboto Slab", sans-serif !important;
-	font-size: 12px !important;
-	letter-spacing: 2px !important;
-	text-transform: uppercase !important;
-	text-decoration: none !important;
-	display: inline-block !important;
-	cursor: pointer !important;
-	transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease !important;
-	box-shadow: none !important;
+.arc-cookie__btn--primary {
+	background: #fff;
+	color: #0d2950;
+	border-color: #fff;
 }
-#cookie-bar-button:hover,
-#cookie-bar-button-customize:hover,
-#cookie-bar-button-no:hover {
-	background: #fff !important;
-	color: #0d2950 !important;
-	border-color: #fff !important;
+.arc-cookie__btn--primary:hover,
+.arc-cookie__btn--primary:focus {
+	background: #dadee4;
+	color: #0d2950;
+	border-color: #dadee4;
 }
-@media (max-width: 700px) {
-	#cookie-bar { padding: 14px 18px !important; font-size: 13px !important; }
-	#cookie-bar p { margin-bottom: 10px !important; }
-	#cookie-bar-button,
-	#cookie-bar-button-customize,
-	#cookie-bar-button-no {
-		padding: 8px 16px !important;
-		font-size: 11px !important;
-		letter-spacing: 1.5px !important;
+
+@media (max-width: 780px) {
+	.arc-cookie__inner {
+		flex-direction: column;
+		align-items: stretch;
+		padding: 14px 18px;
+		gap: 12px;
 	}
+	.arc-cookie__text { flex: 1 1 auto; font-size: 12.5px; text-align: center; }
+	.arc-cookie__actions { justify-content: stretch; }
+	.arc-cookie__actions .arc-cookie__btn { flex: 1 1 auto; }
+}
+
+/* ==========================================================================
+   LEGAL-FOOTER — Copyright & Haftungshinweis + Datenschutzerklärung
+   Sektionen tragen die Modifier-Klasse .g-section--legal und erscheinen
+   auf dunkelgrauem Grund mit deutlich reduzierter Typografie.
+   ========================================================================== */
+section.g-section--legal {
+	background: #2b2e33;
+	padding: 40px 48px !important;
+	color: #a8afb9;
+}
+
+/* 2-Spalten-Layout über volle Breite: Copyright | Datenschutz */
+.g-legal-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 56px;
+	max-width: none;
+}
+
+.g-legal-col {
+	min-width: 0;
+}
+
+.g-legal-col > *:first-child {
+	margin-top: 0;
+}
+
+section.g-section--legal h3.g-h3 {
+	font-size: 12px;
+	letter-spacing: 3px;
+	color: #dadee4;
+	margin: 0 0 12px;
+	font-weight: 400;
+}
+
+section.g-section--legal h4.g-h4-legal {
+	font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+	font-size: 10.5px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	color: #a8afb9;
+	margin: 14px 0 4px;
+	font-weight: 400;
+}
+
+section.g-section--legal .g-legal-col > h4.g-h4-legal:first-of-type {
+	margin-top: 10px;
+}
+
+section.g-section--legal p.g-body {
+	font-size: 11.5px;
+	line-height: 1.55;
+	color: #8a929d;
+	max-width: none;
+	margin: 0 0 7px;
+}
+
+section.g-section--legal a {
+	color: #a8afb9;
+	border-bottom-color: rgba(218, 222, 228, 0.2);
+}
+
+section.g-section--legal a:hover,
+section.g-section--legal a:focus {
+	color: #dadee4;
+	border-bottom-color: #dadee4;
+}
+
+.g-legal-note {
+	margin: 28px 0 0;
+	font-size: 11px;
+	opacity: 0.75;
+	text-align: center;
+}
+
+/* Cookie-Tabelle in der Legal-Sektion — gleiche Typografie wie g-body, hairline grid */
+.g-cookie-table {
+	width: 100%;
+	margin: 10px 0 14px;
+	border-collapse: collapse;
+	font-size: 11px;
+	line-height: 1.5;
+	color: #8a929d;
+}
+.g-cookie-table thead th {
+	text-align: left;
+	font-weight: 400;
+	font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	font-size: 9.5px;
+	color: #a8afb9;
+	padding: 8px 10px 6px;
+	border-bottom: 1px solid rgba(168, 175, 185, 0.3);
+}
+.g-cookie-table tbody td {
+	padding: 8px 10px;
+	vertical-align: top;
+	border-bottom: 1px solid rgba(168, 175, 185, 0.12);
+}
+.g-cookie-table tbody tr:last-child td { border-bottom: 0; }
+.g-cookie-table code {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 11px;
+	color: #dadee4;
+	background: rgba(218, 222, 228, 0.06);
+	padding: 1px 5px;
+	border-radius: 2px;
+}
+.g-cookie-stand {
+	font-size: 10px !important;
+	color: #6a7280 !important;
+	margin-top: 14px !important;
+	font-style: italic;
+}
+
+@media (max-width: 700px) {
+	.g-cookie-table { display: block; overflow-x: auto; white-space: nowrap; }
+	.g-cookie-table thead th, .g-cookie-table tbody td { white-space: normal; }
+}
+
+@media (max-width: 900px) {
+	.g-legal-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+@media (max-width: 700px) {
+	section.g-section--legal { padding: 28px 24px !important; }
 }

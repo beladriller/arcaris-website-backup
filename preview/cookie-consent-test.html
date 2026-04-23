@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Arcaris — Cookie-Consent Test-Harness</title>
+	<link rel="stylesheet" href="../css/main.css">
+	<style>
+		body { padding: 32px; background: #f6f7f9; font-family: "roboto_slablight", "Roboto Slab", Georgia, serif; color: #0d2950; }
+		.harness { max-width: 1100px; margin: 0 auto 140px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+		.harness h1 { font-size: 20px; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 8px; }
+		.harness h2 { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 10px; color: #546080; }
+		.harness .intro { grid-column: 1 / -1; color: #546080; font-size: 13px; line-height: 1.6; }
+		.card { background: #fff; border: 1px solid rgba(13, 41, 80, 0.08); border-radius: 4px; padding: 20px 22px; }
+		.btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+		.btn { font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 9px 14px; border: 1px solid #0d2950; border-radius: 2px; background: #fff; color: #0d2950; cursor: pointer; transition: background 0.2s, color 0.2s; }
+		.btn:hover, .btn:focus { background: #0d2950; color: #fff; outline: none; }
+		.btn--primary { background: #0d2950; color: #fff; }
+		.btn--primary:hover { background: #739dd3; border-color: #739dd3; }
+		.btn--danger { border-color: #a33a3a; color: #a33a3a; }
+		.btn--danger:hover { background: #a33a3a; color: #fff; }
+		.status { font-family: "Courier New", monospace; font-size: 12px; line-height: 1.8; background: #f0f2f5; padding: 12px 14px; border-radius: 2px; color: #0d2950; }
+		.status__row { display: flex; gap: 8px; }
+		.status__label { min-width: 140px; color: #546080; }
+		.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; margin-right: 6px; }
+		.dot--on { background: #3a7a3a; }
+		.dot--off { background: #a33a3a; }
+		.map-wrap { grid-column: 1 / -1; }
+		.map-wrap .g-map { max-width: 600px; margin: 0 auto; }
+		.run { margin-top: 14px; }
+		.run ul { list-style: none; margin: 0; padding: 0; font-size: 12.5px; line-height: 1.6; }
+		.run li { padding: 6px 0; border-bottom: 1px solid rgba(13, 41, 80, 0.06); }
+		.run li:last-child { border-bottom: 0; }
+		.run .ok { color: #3a7a3a; }
+		.run .fail { color: #a33a3a; font-weight: 600; }
+		.run .meta { color: #909aac; font-size: 11px; }
+	</style>
+</head>
+<body>
+
+	<div class="harness">
+		<div class="intro card">
+			<h1>Cookie-Consent Test-Harness</h1>
+			<p>Testet den Consent-Manager gegen alle Übergänge. Nutzt dasselbe <code>arcaris-consent.js?v=3</code>-Modul wie <code>index.html</code>. <strong>Hinweis:</strong> localStorage wird mit der Haupt-Seite geteilt. Am Ende des Auto-Runs wird er automatisch geleert.</p>
+		</div>
+
+		<div class="card">
+			<h2>Manuelle Aktionen</h2>
+			<div class="btn-row">
+				<button class="btn btn--primary" data-action="accept">ArcarisConsent.accept()</button>
+				<button class="btn" data-action="reject">ArcarisConsent.reject()</button>
+				<button class="btn" data-action="revoke">ArcarisConsent.revoke()</button>
+				<button class="btn btn--danger" data-action="clear">Storage + Reinit</button>
+			</div>
+			<div class="run">
+				<button class="btn btn--primary" data-action="run-all">▶ Alle Szenarien auto-run</button>
+				<ul id="run-log"></ul>
+			</div>
+		</div>
+
+		<div class="card">
+			<h2>Live-Status</h2>
+			<div class="status" id="status"></div>
+		</div>
+
+		<div class="map-wrap card">
+			<h2>Map-Container (identisch zur echten Seite)</h2>
+			<div id="maps-code" class="g-map"
+				data-map-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2498.524964872307!2d6.788040977906492!3d51.22782603108707!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b8ca25141518e3%3A0x44f7bea76a050902!2sArcaris%20Management%20GmbH!5e0!3m2!1sde!2sde!4v1776865678289!5m2!1sde!2sde"
+				data-map-placeholder-src="../img/map-placeholder.jpg"
+				data-map-placeholder-alt="Standort Arcaris Management GmbH"></div>
+		</div>
+	</div>
+
+	<!-- Banner-HTML 1:1 zur echten Seite -->
+	<div id="arc-cookie" class="arc-cookie" role="dialog" aria-modal="false" aria-label="Cookie-Hinweis" hidden>
+		<div class="arc-cookie__inner">
+			<p class="arc-cookie__text">Wir laden Google Maps erst nach Ihrer Einwilligung. <a href="#">Datenschutz</a></p>
+			<div class="arc-cookie__actions">
+				<button type="button" class="arc-cookie__btn" data-act="reject">Ablehnen</button>
+				<button type="button" class="arc-cookie__btn arc-cookie__btn--primary" data-act="accept">Zustimmen</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="../js/arcaris-consent.js?v=4&debug=consent"></script>
+
+	<script>
+	(function () {
+		var statusEl = document.getElementById('status');
+		var runLog = document.getElementById('run-log');
+
+		function $banner()       { return document.getElementById('arc-cookie'); }
+		function $iframe()       { return document.querySelector('#maps-code iframe'); }
+		function $placeholder()  { return document.querySelector('#maps-code [data-arc-map-placeholder]'); }
+		function storageRaw()    { return localStorage.getItem('arcaris_consent_v1'); }
+
+		function renderStatus() {
+			var cur = window.ArcarisConsent.current();
+			var rows = [
+				['localStorage',   storageRaw() || '(leer)'],
+				['current()',      cur ? JSON.stringify(cur) : 'null'],
+				['Banner hidden',  $banner().hidden ? 'true' : 'false'],
+				['Map iframe',     $iframe()      ? 'JA — geladen' : 'nein'],
+				['Placeholder',    $placeholder() ? 'JA — sichtbar' : 'nein']
+			];
+			statusEl.innerHTML = rows.map(function (r) {
+				var dot = '';
+				if (r[0] === 'Banner hidden')   dot = '<span class="dot ' + ($banner().hidden ? 'dot--off' : 'dot--on') + '"></span>';
+				else if (r[0] === 'Map iframe') dot = '<span class="dot ' + ($iframe()  ? 'dot--on' : 'dot--off') + '"></span>';
+				else if (r[0] === 'Placeholder')dot = '<span class="dot ' + ($placeholder() ? 'dot--on' : 'dot--off') + '"></span>';
+				return '<div class="status__row"><span class="status__label">' + r[0] + '</span><span>' + dot + r[1] + '</span></div>';
+			}).join('');
+		}
+
+		document.addEventListener('arcaris:consent', renderStatus);
+		new MutationObserver(renderStatus).observe(document.getElementById('maps-code'), { childList: true, subtree: true });
+		new MutationObserver(renderStatus).observe($banner(), { attributes: true, attributeFilter: ['hidden'] });
+
+		document.addEventListener('click', function (e) {
+			var t = e.target.closest && e.target.closest('[data-action]');
+			if (!t) return;
+			var a = t.getAttribute('data-action');
+			if      (a === 'accept') window.ArcarisConsent.accept();
+			else if (a === 'reject') window.ArcarisConsent.reject();
+			else if (a === 'revoke') window.ArcarisConsent.revoke();
+			else if (a === 'clear') {
+				localStorage.removeItem('arcaris_consent_v1');
+				window.ArcarisConsent.init();
+			}
+			else if (a === 'run-all') runAll();
+			renderStatus();
+		});
+
+		function assert(label, cond, note) {
+			var li = document.createElement('li');
+			li.innerHTML = (cond ? '<span class="ok">✓</span> ' : '<span class="fail">✗</span> ') + label + (note ? ' <span class="meta">— ' + note + '</span>' : '');
+			runLog.appendChild(li);
+			return cond;
+		}
+
+		function resetForTest() {
+			localStorage.removeItem('arcaris_consent_v1');
+			window.ArcarisConsent.init();
+		}
+
+		function runAll() {
+			runLog.innerHTML = '';
+			var h = document.createElement('li');
+			h.innerHTML = '<strong>Auto-Run — ' + new Date().toLocaleTimeString() + '</strong>';
+			runLog.appendChild(h);
+
+			// 1) Fresh load (no consent)
+			resetForTest();
+			assert('1) Fresh: banner sichtbar',     !$banner().hidden);
+			assert('1) Fresh: placeholder da',       !!$placeholder());
+			assert('1) Fresh: kein iframe',          !$iframe());
+
+			// 2) Accept
+			window.ArcarisConsent.accept();
+			assert('2) Accept: banner hidden',       $banner().hidden);
+			assert('2) Accept: iframe geladen',      !!$iframe());
+			assert('2) Accept: placeholder weg',     !$placeholder());
+			assert('2) Accept: storage thirdparty',  (window.ArcarisConsent.current() || {}).thirdparty === true);
+
+			// 3) Simulate reload via init()
+			window.ArcarisConsent.init();
+			assert('3) Reload: banner bleibt hidden',$banner().hidden);
+			assert('3) Reload: iframe bleibt',       !!$iframe());
+
+			// 4) Revoke
+			window.ArcarisConsent.revoke();
+			assert('4) Revoke: banner sichtbar',     !$banner().hidden);
+			assert('4) Revoke: iframe entfernt',     !$iframe());
+			assert('4) Revoke: placeholder zurück',  !!$placeholder());
+			assert('4) Revoke: localStorage leer',   !storageRaw());
+
+			// 5) Reject
+			window.ArcarisConsent.reject();
+			assert('5) Reject: banner hidden',       $banner().hidden);
+			assert('5) Reject: placeholder bleibt',  !!$placeholder());
+			assert('5) Reject: kein iframe',         !$iframe());
+			assert('5) Reject: storage thirdparty=false', (window.ArcarisConsent.current() || {}).thirdparty === false);
+
+			// 6) Toggle reject → accept
+			window.ArcarisConsent.accept();
+			assert('6) Reject→Accept: iframe da',    !!$iframe());
+			assert('6) Reject→Accept: placeholder weg',!$placeholder());
+
+			// 7) Toggle accept → reject (teardown)
+			window.ArcarisConsent.reject();
+			assert('7) Accept→Reject: iframe weg',   !$iframe());
+			assert('7) Accept→Reject: placeholder da',!!$placeholder());
+
+			// 8) Placeholder-Click ohne Consent → öffnet Banner
+			resetForTest();
+			if ($placeholder()) { $placeholder().click(); }
+			assert('8) Click-ohne-Consent: banner sichtbar', !$banner().hidden);
+			assert('8) Click-ohne-Consent: kein iframe',     !$iframe());
+
+			// 9) Accept ist idempotent
+			window.ArcarisConsent.accept();
+			window.ArcarisConsent.accept();
+			assert('9) Doppel-Accept: genau 1 iframe', document.querySelectorAll('#maps-code iframe').length === 1);
+
+			// 10) Banner-Click via data-act
+			window.ArcarisConsent.revoke();
+			var rejectBtn = document.querySelector('#arc-cookie [data-act="reject"]');
+			if (rejectBtn) rejectBtn.click();
+			assert('10) Banner-Reject-Click: banner hidden', $banner().hidden);
+			assert('10) Banner-Reject-Click: placeholder da',!!$placeholder());
+
+			// Cleanup
+			localStorage.removeItem('arcaris_consent_v1');
+			window.ArcarisConsent.init();
+			var tail = document.createElement('li');
+			tail.innerHTML = '<span class="meta">Aufgeräumt — localStorage leer, Banner sichtbar für die Hauptseite.</span>';
+			runLog.appendChild(tail);
+			renderStatus();
+		}
+
+		renderStatus();
+	})();
+	</script>
+</body>
+</html>
