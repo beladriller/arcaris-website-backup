@@ -9,6 +9,9 @@ desktop.ini
 .~lock.*
 *.tmp
 
+# Lokale Backup-Dateien
+*.bak
+
 # Claude / tooling
 .claude/
 .vscode/
@@ -17,3 +20,10 @@ desktop.ini
 # Node (falls wir später mal eins reinkriegen)
 node_modules/
 package-lock.json
+
+# Deploy-Workflow (deploy.ps1)
+deploy-config.ps1
+deploy-credentials.xml
+_deploy-backup-*.zip
+_deploy-backup-tmp-*/
+_tools/

@@ -3574,17 +3574,9 @@ body.is-scrolled .main-nav__desktop a:focus {
 	border-color: #fff;
 	outline: none;
 }
-.arc-cookie__btn--primary {
-	background: #fff;
-	color: #0d2950;
-	border-color: #fff;
-}
-.arc-cookie__btn--primary:hover,
-.arc-cookie__btn--primary:focus {
-	background: #dadee4;
-	color: #0d2950;
-	border-color: #dadee4;
-}
+/* Beide Buttons (Ablehnen + Zustimmen) visuell gleichwertig — DSGVO/TTDSG:
+   keine Hervorhebung des Zustimmen-Buttons als Dark Pattern.
+   Modifier-Klasse bleibt im HTML, bewirkt aber kein abweichendes Styling. */
 
 @media (max-width: 780px) {
 	.arc-cookie__inner {
@@ -3673,13 +3665,31 @@ section.g-section--legal a:focus {
 	text-align: center;
 }
 
+/* Inline-Icons in der Kontakt-Sektion (Telefon/Mail/LinkedIn vor Body-Text) */
+.g-contact-icon {
+	vertical-align: -4px;
+	margin-right: 8px;
+	color: #6e7f95;
+}
+
+/* LinkedIn-Icon: Box folgt currentColor (= grau by default), "in"-Letters bleiben weiß.
+   Hover/Focus auf nachfolgendem Link ODER auf dem Icon selbst → Markenblau. */
+.g-contact-icon-linkedin {
+	transition: color 0.2s ease;
+}
+.g-contact-icon-linkedin:hover,
+.g-contact-icon-linkedin:has(+ a:hover),
+.g-contact-icon-linkedin:has(+ a:focus) {
+	color: #0a66c2;
+}
+
 /* Cookie-Tabelle in der Legal-Sektion — gleiche Typografie wie g-body, hairline grid */
 .g-cookie-table {
 	width: 100%;
 	margin: 10px 0 14px;
 	border-collapse: collapse;
-	font-size: 11px;
-	line-height: 1.5;
+	font-size: 14px;
+	line-height: 1.55;
 	color: #8a929d;
 }
 .g-cookie-table thead th {
@@ -3688,7 +3698,7 @@ section.g-section--legal a:focus {
 	font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
 	text-transform: uppercase;
 	letter-spacing: 1.5px;
-	font-size: 9.5px;
+	font-size: 11.5px;
 	color: #a8afb9;
 	padding: 8px 10px 6px;
 	border-bottom: 1px solid rgba(168, 175, 185, 0.3);
@@ -3700,12 +3710,12 @@ section.g-section--legal a:focus {
 }
 .g-cookie-table tbody tr:last-child td { border-bottom: 0; }
 .g-cookie-table code {
-	font-family: "Courier New", Courier, monospace;
-	font-size: 11px;
-	color: #dadee4;
-	background: rgba(218, 222, 228, 0.06);
-	padding: 1px 5px;
-	border-radius: 2px;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	background: transparent;
+	padding: 0;
+	border-radius: 0;
 }
 .g-cookie-stand {
 	font-size: 10px !important;

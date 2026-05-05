@@ -487,14 +487,14 @@ function navFunc() /* { if($('#ueber_uns').length > 0)  */{
 			$('.impressum').removeClass('current');
 			$('.datenschutz').removeClass('current');
 		}
-		else if ((winScroll + navOffset) < datenschutzTop) {
+		else if ((winScroll + navOffset) < datenschutzTop && ((winScroll + $(window).height()) < ($(document).height() - 5))) {
 			$('.ueber_uns').removeClass('current');
 			$('.investitionsansatz').removeClass('current');
 			$('.portfolio').removeClass('current');
 			$('.team').removeClass('current');
 			$('.karriere').removeClass('current');
-			$('.kontakt').addClass('current');
-			$('.impressum').removeClass('current');
+			$('.kontakt').removeClass('current');
+			$('.impressum').addClass('current');
 			$('.datenschutz').removeClass('current');
 		}
 		
@@ -652,14 +652,14 @@ function navResponsiveFunc() /* { if($('#ueber_uns').length > 0)  */{
 			$('.impressum_responsive').removeClass('current_responsive');
 			$('.datenschutz_responsive').removeClass('current_responsive');
 		}
-		else if ((winScroll + navOffset) < datenschutzTop) {
+		else if ((winScroll + navOffset) < datenschutzTop && ((winScroll + $(window).height()) < ($(document).height() - 5))) {
 			$('.ueber_uns_responsive').removeClass('current_responsive');
 			$('.investitionsansatz_responsive').removeClass('current_responsive');
 			$('.portfolio_responsive').removeClass('current_responsive');
 			$('.team_responsive').removeClass('current_responsive');
 			$('.karriere_responsive').removeClass('current_responsive');
-			$('.kontakt_responsive').addClass('current_responsive');
-			$('.impressum_responsive').removeClass('current_responsive');
+			$('.kontakt_responsive').removeClass('current_responsive');
+			$('.impressum_responsive').addClass('current_responsive');
 			$('.datenschutz_responsive').removeClass('current_responsive');
 		}
 		else if ((winScroll + navOffset) < datenschutzTop && (winScroll <= maxTop)) {
