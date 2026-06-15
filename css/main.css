@@ -3547,6 +3547,31 @@ body.is-scrolled .main-nav__desktop a:focus {
 	.g-eagle { width: 55px; height: 40px; transform: translateY(-44px); }
 }
 
+/* Portfolio-Karten auf Mobile (1-Spalten-Layout): Foto + vollstaendige Infos
+   untereinander statt Hover-Overlay. Die Karte ist nicht mehr auf 4:3 fixiert,
+   sondern waechst mit dem Inhalt -> langer Firmenname und Meta (Seit, Sitz,
+   Geschaeftsfuehrer, Webseite) sind immer voll sichtbar, nichts abgeschnitten. */
+@media (max-width: 900px) {
+	.g-portfolio-card {
+		aspect-ratio: auto;
+		overflow: visible;
+	}
+	.g-portfolio-card img.photo {
+		position: relative;
+		inset: auto;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 4 / 3;
+	}
+	.g-portfolio-overlay {
+		position: relative;
+		top: auto;
+		height: auto;
+		padding: 20px 24px 24px;
+		transition: none;
+	}
+}
+
 /* ==========================================================================
    COOKIE-BANNER (eigener Consent-Manager, binärer Consent für Google Maps)
    Flache Bottom-Bar, volle Breite, Navy-Grund, ein Satz + zwei Buttons.
