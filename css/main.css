@@ -847,12 +847,11 @@ li.datenschutz {
 	display: none;
     margin: 0;
     padding: 0;
-    /* Spiegelbuendig zum Logo: Logo sitzt links bei 40px in einer 84px hohen Leiste.
-       Button 84px hoch (Icon vertikal zentriert -> gleiche Hoehe wie Logo) und so
-       weit rechts, dass das 25px-Icon ~40px Abstand zur rechten Kante hat
-       (right 28 + (50-25)/2 = 40,5). */
+    /* Auf Logo-Hoehe (Logo links bei 40px in einer 84px hohen Leiste): Button 84px
+       hoch, Icon vertikal zentriert. Etwas weiter nach rechts gerueckt -> 25px-Icon
+       hat ~30px Abstand zur rechten Inhaltskante (right 18 + (50-25)/2 = 30,5). */
     top: 0;
-    right: 28px;
+    right: 18px;
     position: fixed;
     z-index: 9999999;
     width: 50px;
@@ -1002,9 +1001,12 @@ li.datenschutz {
     opacity: 1;
     height: auto;
     padding-bottom: 20px;
-    -webkit-box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.3);
-	-moz-box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.3);
-	box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.3);
+    /* KEIN box-shadow: beim Schliessen schnappt die Hoehe auf 0, der dunkle Schatten
+       (offset-y 3px) bliebe am oberen Rand haengen und faded aus -> haessliche dunkle
+       Animation. Ohne Schatten verschwindet das Menue sauber. */
+    -webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
 }
 
 .mobile .bgblack.active_mobile {
