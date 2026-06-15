@@ -253,7 +253,8 @@ try {
                 if ($rdir -eq '') { $rdir = '/' }
                 try {
                     $r = $session.PutFileToDirectory($u.Local, $rdir, $false, $to)
-                    $r.Check(); $ok++
+                    if ($r.Error) { throw $r.Error }   # PutFileToDirectory liefert TransferEventArgs (.Error statt .Check())
+                    $ok++
                 } catch { $fail++; Write-Host "  ! $($u.Rel): $($_.Exception.Message)" -ForegroundColor Red }
             }
             Write-Host ""
