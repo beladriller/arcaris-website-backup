@@ -613,11 +613,18 @@ body.is-scrolled .logo {
   width: 100%;
   height: 52px;
   white-space: nowrap;
+  /* Die volle Breite + hoher z-index der transparenten Nav-Leiste darf keine Klicks
+     abfangen (sonst ist u.a. das Logo darunter nicht klickbar). Nur die Links selbst
+     sollen Klicks empfangen. */
+  pointer-events: none;
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
   -ms-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
+}
+.main-nav a {
+  pointer-events: auto;
 }
 
 .main-nav-bg {
@@ -1016,6 +1023,18 @@ li.datenschutz {
 
 .bgblack #top_image.active_mobile {
     display: block;
+}
+
+/* Mobiles Menue-Overlay (inkl. des zweiten Logos in .bgblack) auf Desktop-Breiten
+   komplett deaktivieren. Verhindert ein doppeltes Logo, falls .bgblack durch ein
+   haengengebliebenes active_mobile oder jQuery-Mobile-Artefakte sichtbar wird.
+   Auf Desktop (>950px) wird ohnehin die horizontale Menueleiste statt des
+   Hamburger-Overlays genutzt. */
+@media screen and (min-width: 951px) {
+    .bgblack,
+    .bgblack.active_mobile {
+        display: none !important;
+    }
 }
 
 /* ==========================================================================
@@ -2964,14 +2983,14 @@ section.g-section a:focus {
 	margin-top: 96px;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: auto auto repeat(3, auto);
+	grid-template-rows: auto auto repeat(4, auto);
 	column-gap: 72px;
 	row-gap: 0;
 }
 .g-principles-2col > section {
 	display: grid;
 	grid-template-rows: subgrid;
-	grid-row: 1 / span 5;
+	grid-row: 1 / span 6;
 	row-gap: 0;
 }
 .g-principles-2col > section > h3 {
@@ -3082,7 +3101,7 @@ section.g-section a:focus {
 .g-flip-card-face-front {
 	background: rgba(255, 255, 255, 0.55);
 	border: 1px solid rgba(115, 157, 211, 0.15);
-	justify-content: space-between;
+	justify-content: flex-start;
 }
 .g-flip-card:hover .g-flip-card-face-front {
 	background: rgba(255, 255, 255, 0.82);
@@ -3128,7 +3147,7 @@ section.g-section a:focus {
 	margin: 0 0 14px;
 }
 
-.g-flip-card-body-group { display: flex; flex-direction: column; }
+.g-flip-card-body-group { display: flex; flex-direction: column; margin-top: 40px; }
 
 .g-flip-card-title {
 	font-family: "roboto_slabregular", "Roboto Slab", Georgia, serif;
@@ -3168,6 +3187,8 @@ section.g-section a:focus {
 	text-transform: uppercase;
 	color: #739dd3;
 	display: flex; align-items: center; gap: 12px;
+	margin-top: auto;
+	padding-top: 24px;
 	transition: gap .3s ease, color .3s ease;
 }
 .g-flip-hint-line {

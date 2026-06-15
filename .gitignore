@@ -27,3 +27,4 @@ deploy-credentials.xml
 _deploy-backup-*.zip
 _deploy-backup-tmp-*/
 _tools/
+.gstack/
