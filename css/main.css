@@ -3528,14 +3528,7 @@ body.is-scrolled .main-nav__desktop a:focus {
 /* Responsive */
 @media (max-width: 1100px) {
 	.g-flip-grid { grid-template-columns: 1fr; gap: 20px; }
-	/* Im 1-Spalten-Layout (Touch) keinen Flip: die Rueckseite mit dem vollen Text
-	   direkt anzeigen. Kartenhoehe waechst pro Karte mit dem Inhalt -> kein
-	   abgeschnittener Text und kein internes Scrollen mehr. */
-	.g-flip-card, .g-flip-card-inner { min-height: 0; }
-	.g-flip-card-inner { transform: none !important; }
-	.g-flip-card-face { position: relative; inset: auto; height: auto; }
-	.g-flip-card-face-front { display: none; }
-	.g-flip-card-face-back { transform: none; overflow: visible; }
+	.g-flip-card, .g-flip-card-inner { min-height: 340px; }
 }
 @media (max-width: 900px) {
 	section.g-section { padding: 80px 24px !important; }
@@ -3547,28 +3540,19 @@ body.is-scrolled .main-nav__desktop a:focus {
 	.g-eagle { width: 55px; height: 40px; transform: translateY(-44px); }
 }
 
-/* Portfolio-Karten auf Mobile (1-Spalten-Layout): Foto + vollstaendige Infos
-   untereinander statt Hover-Overlay. Die Karte ist nicht mehr auf 4:3 fixiert,
-   sondern waechst mit dem Inhalt -> langer Firmenname und Meta (Seit, Sitz,
-   Geschaeftsfuehrer, Webseite) sind immer voll sichtbar, nichts abgeschnitten. */
+/* Portfolio-Karten auf Mobile: Verhalten wie auf Desktop (Overlay faehrt beim
+   Auftippen hoch), aber die Karte ist hoeher und das Overlay faehrt ganz nach
+   oben -> Firmenname + Meta (Seit, Sitz, Geschaeftsfuehrer, Webseite) passen
+   vollstaendig hinein, nichts wird abgeschnitten. */
 @media (max-width: 900px) {
 	.g-portfolio-card {
-		aspect-ratio: auto;
-		overflow: visible;
+		aspect-ratio: 1 / 1; /* etwas hoeher als 4:3 -> genug Platz fuer den vollen Info-Text */
 	}
-	.g-portfolio-card img.photo {
-		position: relative;
-		inset: auto;
-		width: 100%;
-		height: auto;
-		aspect-ratio: 4 / 3;
-	}
-	.g-portfolio-overlay {
-		position: relative;
-		top: auto;
-		height: auto;
-		padding: 20px 24px 24px;
-		transition: none;
+	.g-portfolio-card:hover .g-portfolio-overlay,
+	.g-portfolio-card:focus-within .g-portfolio-overlay {
+		top: 0; /* faehrt komplett hoch statt nur auf 45% */
+		justify-content: center; /* Inhalt vertikal mittig -> gleichmaessiger Rand */
+		overflow-y: auto; /* Sicherheitsnetz: extrem langer Text scrollt statt abzuschneiden */
 	}
 }
 
