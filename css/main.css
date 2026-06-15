@@ -847,12 +847,16 @@ li.datenschutz {
 	display: none;
     margin: 0;
     padding: 0;
-    top: 7px;
-    right: 40px;
+    /* Spiegelbuendig zum Logo: Logo sitzt links bei 40px in einer 84px hohen Leiste.
+       Button 84px hoch (Icon vertikal zentriert -> gleiche Hoehe wie Logo) und so
+       weit rechts, dass das 25px-Icon ~40px Abstand zur rechten Kante hat
+       (right 28 + (50-25)/2 = 40,5). */
+    top: 0;
+    right: 28px;
     position: fixed;
     z-index: 9999999;
     width: 50px;
-    height: 50px;
+    height: 84px;
     cursor: pointer;
     background: transparent;
     -webkit-transition: all 0.5s ease-in-out;
@@ -877,7 +881,7 @@ li.datenschutz {
     -ms-transition: all 0.25s ease-in-out;
     transition: all 0.25s ease-in-out;
     position: absolute;
-    top: 24px;
+    top: 40px; /* vertikal mittig im 84px-Button -> auf Logo-Hoehe */
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -1015,6 +1019,14 @@ li.datenschutz {
 
 .bgblack.active_mobile #top_image {
     display: block;
+}
+
+/* Logo im geoeffneten Menue IMMER zeigen - auch auf dem Hero, wo das Header-Logo
+   ausgeblendet ist. So ist das Menue konsistent (nicht kahl). Die Position ist per
+   JS top:0, also deckungsgleich mit dem Header-Logo -> kein Sprung. */
+.bgblack.active_mobile .logo {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .bgblack #top_image {

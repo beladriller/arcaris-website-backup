@@ -359,28 +359,28 @@ function responsiveEffect() {
     var winHeight = $(window).height();
 	
     if(height  > winHeight-64) {
-	    //$( '.logo' ).css( "top", "18px" );
+	    //$( '.logo' ).css( "top", "0px" );
 	    //$( '.main-nav-bg' ).css( "background", "#fff" );
 		$( '.main-nav-bg' ).addClass( "shadow" );
-		$( '.bgblack .logo' ).css( "top", "18px" );
+		$( '.bgblack .logo' ).css( "top", "0px" );
 		$( '.bgblack' ).css( "top", "0px" );
 		//$( '.navToggle' ).css( "top", "7px" );		
     }
 	else {
-		//$( '.logo' ).css( "top", "45px" );
+		//$( '.logo' ).css( "top", "0px" );
 		//$( '.main-nav-bg' ).css( "background", "rgba(255,255,255,1)" );
         $( '.main-nav-bg' ).removeClass( "shadow" );
-        $( '.bgblack .logo' ).css( "top", "45px" );
+        $( '.bgblack .logo' ).css( "top", "0px" );
         $( '.bgblack' ).css( "top", "0px" );
         //$( '.navToggle' ).css( "top", "37px" );
     }
     
     var winWidth = $(window).width();
     if(winWidth <= 880) {
-		$( '.bgblack .logo' ).css( "top", "18px" );	
+		$( '.bgblack .logo' ).css( "top", "0px" );	
     }
 	else {
-        $( '.bgblack .logo' ).css( "top", "18px" );
+        $( '.bgblack .logo' ).css( "top", "0px" );
     }
     
 }
