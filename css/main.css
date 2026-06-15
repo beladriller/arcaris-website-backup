@@ -1148,6 +1148,28 @@ li.datenschutz {
 	.start__cta { font-size: 12px; letter-spacing: 3px; }
 }
 
+/* ==========================================================================
+   RANDLOSER HERO + KEIN WEISSER RAHMEN (alle Viewports)
+   --------------------------------------------------------------------------
+   Der fruehere weisse 20px-Rahmen (#border_*-Balken + #wrapper padding 0 20px)
+   wirkte auf Mobil zu dominant und verschob den Hero-Text gegenueber der
+   Video-Mitte; auf Desktop war er ebenfalls unerwuenscht. Loesung an der Wurzel:
+     1) die weissen Rahmenbalken ausblenden,
+     2) den seitlichen #wrapper-Innenabstand entfernen -> Hero-Video und
+        Text-Container fuellen die volle Breite und sind exakt zentriert; alle
+        Sektionen behalten ihr eigenes Padding.
+   Das Preloader-Logo wird per JS live auf .start__logo gepinnt und folgt
+   automatisch mit -> die Reload-Ueberlappung bleibt erhalten.
+   ========================================================================== */
+#border_left,
+#border_right,
+#border_bottom { display: none; }
+
+#wrapper {
+	padding-left: 0;
+	padding-right: 0;
+}
+
 
 /* ==========================================================================
 UEBER UNS
@@ -3707,6 +3729,8 @@ section.g-section--legal a:focus {
 /* Cookie-Tabelle in der Legal-Sektion — gleiche Typografie wie g-body, hairline grid */
 .g-cookie-table {
 	width: 100%;
+	table-layout: fixed; /* Tabelle haelt sich an die Spaltenbreite (1fr-Grid) statt
+	                        per Inhalt zu wachsen -> kein horizontaler Seiten-Ueberlauf */
 	margin: 10px 0 14px;
 	border-collapse: collapse;
 	font-size: 14px;
@@ -3727,6 +3751,7 @@ section.g-section--legal a:focus {
 .g-cookie-table tbody td {
 	padding: 8px 10px;
 	vertical-align: top;
+	overflow-wrap: anywhere; /* lange Tokens (z.B. Cookie-Namen) brechen um statt zu ueberlaufen */
 	border-bottom: 1px solid rgba(168, 175, 185, 0.12);
 }
 .g-cookie-table tbody tr:last-child td { border-bottom: 0; }
