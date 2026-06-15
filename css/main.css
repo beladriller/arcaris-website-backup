@@ -3528,7 +3528,14 @@ body.is-scrolled .main-nav__desktop a:focus {
 /* Responsive */
 @media (max-width: 1100px) {
 	.g-flip-grid { grid-template-columns: 1fr; gap: 20px; }
-	.g-flip-card, .g-flip-card-inner { min-height: 340px; }
+	/* Im 1-Spalten-Layout (Touch) keinen Flip: die Rueckseite mit dem vollen Text
+	   direkt anzeigen. Kartenhoehe waechst pro Karte mit dem Inhalt -> kein
+	   abgeschnittener Text und kein internes Scrollen mehr. */
+	.g-flip-card, .g-flip-card-inner { min-height: 0; }
+	.g-flip-card-inner { transform: none !important; }
+	.g-flip-card-face { position: relative; inset: auto; height: auto; }
+	.g-flip-card-face-front { display: none; }
+	.g-flip-card-face-back { transform: none; overflow: visible; }
 }
 @media (max-width: 900px) {
 	section.g-section { padding: 80px 24px !important; }
