@@ -180,55 +180,85 @@ try {
         Write-Host "Backup gespeichert: $zipPath" -ForegroundColor Green
     }
 
-    # ---------- Synchronize ----------
-    $localPath  = (Resolve-Path $config.LocalPath).Path
-    $remotePath = $config.RemotePath
-    $criteria = if ($Force) {
-        [WinSCP.SynchronizationCriteria]::None
-    } else {
-        [WinSCP.SynchronizationCriteria]::Time -bor [WinSCP.SynchronizationCriteria]::Size
+    # ---------- Datei-Auswahl + Vergleich (PowerShell-seitig) ----------
+    # WICHTIG: WinSCPs SynchronizeDirectories() hat KEINEN Dry-Run/Preview-Parameter.
+    # Der 5. Parameter ist 'mirror', NICHT 'preview'. Frueher wurde -DryRun dort
+    # uebergeben -> es wurde real hochgeladen ("Dry-Run" log irrefuehrend). Deshalb
+    # hier eine eigene, transparente Auswahl. -DryRun ist garantiert nur lesend
+    # (nur FileExists/GetFileInfo), und die Ausschluesse greifen auch auf Root-Ebene.
+
+    $localRoot  = (Resolve-Path $config.LocalPath).Path.TrimEnd('\')
+    $remoteRoot = $config.RemotePath.TrimEnd('/')   # '/' -> '' damit "$remoteRoot/$rel" passt
+
+    # Ausschluesse: Verzeichnis-Namen (an JEDER Stelle im Pfad) + Datei-Namen/Muster
+    # Hinweis: 'download' wird NICHT ausgeschlossen - index.html verlinkt PDFs daraus
+    # (download/Anfahrt.pdf, download/Arcaris_Praktikum_...pdf), muss also mit hoch.
+    $exDirNames  = @('.git','.gstack','.claude','.vscode','.idea','_tools','_reference',
+                     'preview','Corporate design','Logo','other content','node_modules')
+    $exDirGlobs  = @('_deploy-backup-tmp-*')
+    $exFileNames = @('deploy.ps1','deploy-config.ps1','deploy-config.example.ps1',
+                     'deploy-credentials.xml','serve.ps1','.gitignore','.gitattributes',
+                     'Thumbs.db','.DS_Store','desktop.ini','image.png','Smartphone ansicht website.png')
+    $exFileGlobs = @('*.bak','*.tmp','*.swp','_deploy-backup-*.zip')
+
+    function Test-Deployable([string]$full) {
+        $rel = $full.Substring($localRoot.Length).TrimStart('\')
+        $parts = $rel -split '\\'
+        for ($i = 0; $i -lt $parts.Count - 1; $i++) {
+            if ($exDirNames -contains $parts[$i]) { return $false }
+            foreach ($g in $exDirGlobs) { if ($parts[$i] -like $g) { return $false } }
+        }
+        $name = $parts[$parts.Count - 1]
+        if ($exFileNames -contains $name) { return $false }
+        foreach ($g in $exFileGlobs) { if ($name -like $g) { return $false } }
+        return $true
     }
 
     Write-Host ""
-    Write-Host "Synchronisiere: $localPath" -ForegroundColor Cyan
-    Write-Host "       Remote:  $remotePath" -ForegroundColor Cyan
-    if ($DryRun) { Write-Host "       Modus:   DRY-RUN (nichts wird uebertragen)" -ForegroundColor Yellow }
-    if ($Force)  { Write-Host "       Modus:   FORCE (alles neu uebertragen)" -ForegroundColor Yellow }
-    if ($Mirror) { Write-Host "       Modus:   MIRROR (Remote-only Dateien werden GELOESCHT)" -ForegroundColor Red }
-
-    $result = $session.SynchronizeDirectories(
-        [WinSCP.SynchronizationMode]::Remote,
-        $localPath,
-        $remotePath,
-        $Mirror.IsPresent,
-        $DryRun.IsPresent,
-        $criteria,
-        $transferOpts
-    )
-
-    # ---------- Bericht ----------
+    Write-Host "Lokal:  $localRoot" -ForegroundColor Cyan
+    Write-Host "Remote: $($config.RemotePath)" -ForegroundColor Cyan
+    if ($DryRun) { Write-Host "Modus:  DRY-RUN (nur Anzeige, garantiert KEIN Upload)" -ForegroundColor Yellow }
+    if ($Force)  { Write-Host "Modus:  FORCE (alle Dateien neu uebertragen)" -ForegroundColor Yellow }
+    if ($Mirror) { Write-Host "Hinweis: -Mirror (Remote-Loeschen) ist in dieser Version deaktiviert." -ForegroundColor Yellow }
     Write-Host ""
-    $uploads = @($result.Uploads)
-    $removals = @($result.Removals)
-    if ($uploads.Count -eq 0 -and $removals.Count -eq 0) {
+
+    $localFiles = Get-ChildItem -LiteralPath $localRoot -Recurse -File -Force |
+                  Where-Object { Test-Deployable $_.FullName }
+
+    $uploads = New-Object System.Collections.Generic.List[object]
+    foreach ($lf in $localFiles) {
+        $rel = ($lf.FullName.Substring($localRoot.Length).TrimStart('\')) -replace '\\','/'
+        $rp  = "$remoteRoot/$rel"
+        $need = $true
+        if (-not $Force -and $session.FileExists($rp)) {
+            $ri = $session.GetFileInfo($rp)
+            if ($ri.Length -eq $lf.Length -and $lf.LastWriteTime -le $ri.LastWriteTime.AddSeconds(2)) { $need = $false }
+        }
+        if ($need) { $uploads.Add([pscustomobject]@{ Local = $lf.FullName; Remote = $rp; Rel = $rel }) }
+    }
+
+    if ($uploads.Count -eq 0) {
         Write-Host "Keine Aenderungen - alles bereits aktuell." -ForegroundColor Green
     } else {
-        if ($uploads.Count -gt 0) {
-            $verb = if ($DryRun) { 'wuerden hochgeladen' } else { 'hochgeladen' }
-            Write-Host "$($uploads.Count) Datei(en) $verb`:" -ForegroundColor Green
-            $uploads | ForEach-Object { Write-Host "  + $($_.FileName)" -ForegroundColor DarkGray }
+        $verb = if ($DryRun) { 'wuerden hochgeladen' } else { 'werden hochgeladen' }
+        Write-Host "$($uploads.Count) Datei(en) $verb`:" -ForegroundColor Green
+        foreach ($u in $uploads) { Write-Host "  + $($u.Rel)" -ForegroundColor DarkGray }
+        if (-not $DryRun) {
+            Write-Host ""
+            $to = New-Object WinSCP.TransferOptions
+            $to.TransferMode = [WinSCP.TransferMode]::Binary
+            $ok = 0; $fail = 0
+            foreach ($u in $uploads) {
+                $rdir = $u.Remote.Substring(0, $u.Remote.LastIndexOf('/'))
+                if ($rdir -eq '') { $rdir = '/' }
+                try {
+                    $r = $session.PutFileToDirectory($u.Local, $rdir, $false, $to)
+                    $r.Check(); $ok++
+                } catch { $fail++; Write-Host "  ! $($u.Rel): $($_.Exception.Message)" -ForegroundColor Red }
+            }
+            Write-Host ""
+            Write-Host "Hochgeladen: $ok   Fehler: $fail" -ForegroundColor $(if ($fail) { 'Red' } else { 'Green' })
         }
-        if ($removals.Count -gt 0) {
-            $verb = if ($DryRun) { 'wuerden GELOESCHT' } else { 'GELOESCHT' }
-            Write-Host "$($removals.Count) Remote-Datei(en) $verb`:" -ForegroundColor Red
-            $removals | ForEach-Object { Write-Host "  - $($_.FileName)" -ForegroundColor DarkGray }
-        }
-    }
-    if ($result.Failures.Count -gt 0) {
-        Write-Host ""
-        Write-Host "$($result.Failures.Count) Fehler:" -ForegroundColor Red
-        $result.Failures | ForEach-Object { Write-Host "  ! $($_.Message)" -ForegroundColor Red }
-        $result.Check()
     }
     Write-Host ""
 }
