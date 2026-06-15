@@ -2226,50 +2226,47 @@ h2.name {
 	display: none;
 }
 
-/* Reserve space for logo on mid-sized screens so the centered menu cannot overlap it */
-@media screen and (min-width: 951px) and (max-width: 1600px) {
-	.main-nav {
-		box-sizing: border-box;
-		padding-left: 220px;
-		padding-right: 40px;
-	}
-}
+/* ==========================================================================
+   DESKTOP-NAV: Logo-Reservierung + fit-basierte Menue-Typo
+   --------------------------------------------------------------------------
+   Das oben links fixierte Logo (beim Scrollen sichtbar) und das zentrierte
+   Menue duerfen sich bei KEINER Breite ueberlappen, und das Menue darf rechts
+   nicht aus dem Viewport laufen. Grundsatz: die Schriftgroesse so waehlen, dass
+   die gemessene Menuebreite immer in (Viewport - Padding) passt -> dann zentriert
+   das Menue mit Abstand zum Logo. Die Schrift-Bereiche ueberschneiden sich NICHT
+   und haben oben KEINEN max-width-Deckel (sonst Drift ins Logo bei >1600px bzw.
+   bei herausgezoomter Darstellung). Gemessene Menuebreiten (font/letter-spacing/
+   margin): 10px=743, 11px=961, 12px=1242, 13px=1574.
+   ========================================================================== */
 
-/* Slight shrink so all 8 items fit beside the logo in the upper mid range */
-@media screen and (min-width: 1281px) and (max-width: 1600px) {
-	.main-nav__desktop li {
-		font-size: 12px;
-		letter-spacing: 2.5px;
-		margin: 0 20px;
-	}
+/* --- Logo-Platz reservieren NUR im gescrollten Zustand (erst dann erscheint das
+   Logo oben links). Auf dem Hero (oben, kein Logo) bleibt das Menue dadurch echt
+   zentriert; beim Scrollen rueckt es per Transition sanft nach rechts und macht
+   dem einblendenden Logo Platz. Default fuer grosse Screens (Logo 150px). --- */
+@media screen and (min-width: 951px) {
+	body.is-scrolled .main-nav { box-sizing: border-box; padding-left: 220px; padding-right: 40px; }
 }
-
+/* Unterer Desktop-Bereich: kleineres Logo + knapperer Platz */
 @media screen and (min-width: 951px) and (max-width: 1280px) {
-	.main-nav__desktop li {
-		font-size: 11px;
-		letter-spacing: 2px;
-		margin: 0 16px;
-	}
-	.main-nav {
-		padding-left: 190px;
-		padding-right: 20px;
-	}
-	.logo img {
-		width: 130px;
-	}
+	body.is-scrolled .main-nav { padding-left: 190px; padding-right: 20px; }
+	.logo img { width: 130px; }
+}
+@media screen and (min-width: 951px) and (max-width: 1100px) {
+	body.is-scrolled .main-nav { padding-left: 180px; padding-right: 12px; }
 }
 
-/* Extra compression for the narrowest desktop range so all items fit beside the logo */
-@media screen and (min-width: 951px) and (max-width: 1100px) {
-	.main-nav__desktop li {
-		font-size: 10px;
-		letter-spacing: 1px;
-		margin: 0 10px;
-	}
-	.main-nav {
-		padding-left: 180px;
-		padding-right: 12px;
-	}
+/* --- Fit-basierte Menue-Schrift (nicht ueberlappende Breiten-Bereiche) --- */
+@media screen and (min-width: 951px)  and (max-width: 1199px) {
+	.main-nav__desktop li { font-size: 10px; letter-spacing: 1px;   margin: 0 10px; }
+}
+@media screen and (min-width: 1200px) and (max-width: 1539px) {
+	.main-nav__desktop li { font-size: 11px; letter-spacing: 2px;   margin: 0 16px; }
+}
+@media screen and (min-width: 1540px) and (max-width: 1899px) {
+	.main-nav__desktop li { font-size: 12px; letter-spacing: 2.5px; margin: 0 20px; }
+}
+@media screen and (min-width: 1900px) {
+	.main-nav__desktop li { font-size: 13px; letter-spacing: 3px;   margin: 0 26px; }
 }
 
 @media screen and (max-width: 950px) {
