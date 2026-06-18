@@ -28,3 +28,8 @@ _deploy-backup-*.zip
 _deploy-backup-tmp-*/
 _tools/
 .gstack/
+
+# Lose Screenshots (zur Kommunikation reingezogen, keine Website-Assets)
+img/Screenshot *.png
+img/image.png
+img/Smartphone ansicht website.png
