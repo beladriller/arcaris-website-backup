@@ -199,7 +199,7 @@ try {
     $exFileNames = @('deploy.ps1','deploy-config.ps1','deploy-config.example.ps1',
                      'deploy-credentials.xml','serve.ps1','.gitignore','.gitattributes',
                      'Thumbs.db','.DS_Store','desktop.ini','image.png','Smartphone ansicht website.png')
-    $exFileGlobs = @('*.bak','*.tmp','*.swp','_deploy-backup-*.zip')
+    $exFileGlobs = @('*.bak','*.tmp','*.swp','_deploy-backup-*.zip','Screenshot *.png','Screenshot*.png')
 
     function Test-Deployable([string]$full) {
         $rel = $full.Substring($localRoot.Length).TrimStart('\')
